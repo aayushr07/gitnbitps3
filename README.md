@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AICTE APAAR ID Platform - Frontend Portal
 
-## Getting Started
+A modern Next.js web application for AICTE-approved institutions providing APAAR ID QR verification, multi-level approval workflows, AI-powered student onboarding, and pre-submission data quality audits.
 
-First, run the development server:
+Built for Smart India Hackathon (SIH26263).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Design System & Theme
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Designed in a **clean light theme** using the official palette:
+- **Navy Primary**: `#142B4A`
+- **Dark Slate**: `#0F172A`
+- **Cyan Accent**: `#22D3EE`
+- **Border Slate**: `#E2E8F0`
+- **Surfaces**: `#F8FAFC` & `#FFFFFF`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🚀 Key Portal Features
 
-To learn more about Next.js, take a look at the following resources:
+1. **Student Gateway & QR Scanner (`/scan`)**:
+   - Web camera and image upload scanner decoding student APAAR QR tokens.
+   - Real-time cryptographic validation with DigiLocker e-KYC and Academic Bank of Credits (ABC) breakdown.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **AI-Powered New Student Onboarding (`/students`)**:
+   - Aadhaar consent authorization compliance under the Aadhaar Act 2016.
+   - Demographic fuzzy matching, nationwide duplicate/ghost student detection, and AICTE accreditation check.
+   - Evaluator demo test presets for 1-click hackathon evaluation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. **Multi-Level Verification Workflow (`/workflow`)**:
+   - 4-Tier structured approval state machine:
+     1. College Operator (submits data & fixes remarks)
+     2. Institution Verifier (checks marksheets & verifies records)
+     3. Authorized Reviewer (resolves flagged dual-enrollment cases)
+     4. AICTE Central Admin (grants national digital seal)
+   - Cryptographic audit trail with timestamps and role actions.
 
-## Deploy on Vercel
+4. **AI-Powered Data Quality Assistant (`/data-quality`)**:
+   - Pre-submission dataset sanitizer detecting missing mandatory fields, institution name abbreviations, and out-of-bounds CGPA.
+   - 1-click suggested corrections and departmental quality scorecard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Official Printable Student Card (`/student/[id]`)**:
+   - High-fidelity, print-ready AICTE ID card featuring dynamic QR code and security stamps.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+6. **AICTE Central Compliance & Fraud Sentinel (`/analytics`)**:
+   - Cross-institutional statistics, dual-enrollment fraud alerts, and ABC credit trends.
+
+---
+
+## ⚙️ Setup & Installation
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Configure Environment Variables**:
+   Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Configure `NEXTAUTH_SECRET` and `NEXTAUTH_URL` (defaults to `http://localhost:3000`).
+
+3. **Run the Development Server**:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+4. **Production Build**:
+   ```bash
+   npm run build
+   npm start
+   ```
