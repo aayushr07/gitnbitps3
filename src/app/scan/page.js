@@ -38,6 +38,28 @@ function ScanContent() {
   const [recentScans, setRecentScans] = useState([]);
   const html5QrCodeRef = useRef(null);
 
+  // New Student AI Creator State
+  const [showAiModal, setShowAiModal] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiNotice, setAiNotice] = useState(null);
+  const [newStudentForm, setNewStudentForm] = useState({
+    full_name: "Priya Sharma",
+    aadhaar_number: "5544-3322-1100",
+    dob: "2004-06-15",
+    gender: "Female",
+    email: "priya.sharma24@dtu.ac.in",
+    phone: "+91 98110 33445",
+    institution: "Delhi Technological University",
+    aicte_id: "1-33271891",
+    program: "B.Tech Computer Science & Engineering",
+    branch: "CSE",
+    admission_year: 2024,
+    current_semester: 1,
+    student_consent: true,
+    document_uploaded: true,
+    document_name: "Class_XII_CBSE_Marksheet.pdf"
+  });
+
   // Demo cards for 1-click testing
   const demoProfiles = [
     {
@@ -187,6 +209,46 @@ function ScanContent() {
     performVerification(manualInput);
   };
 
+  const handleCreateApaarWithAi = async (e) => {
+    if (e) e.preventDefault();
+    if (!newStudentForm.student_consent) {
+      alert("Mandatory Consent: Please authorize Aadhaar demographic verification under AICTE guidelines.");
+      return;
+    }
+    setAiLoading(true);
+    setAiNotice(null);
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/ai-verify-student", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...newStudentForm,
+          auto_enroll: true
+        })
+      });
+
+      const data = await res.json();
+      if (data.success && data.verified && data.apaar_id) {
+        setShowAiModal(false);
+        setManualInput(data.apaar_id);
+        performVerification(data.apaar_id);
+      } else {
+        setAiNotice({
+          status: data.status,
+          score: data.ai_trust_score,
+          message: data.message || "AI detected discrepancy or missing mandatory documents.",
+          flags: data.report?.flags || [],
+          workflow_id: data.workflow_record?.workflow_id || "WF-PENDING"
+        });
+      }
+    } catch (err) {
+      alert("Error contacting AI Verification service: " + err.message);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <div className="flex-1 bg-slate-50 text-[#0F172A] py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-7">
@@ -206,11 +268,20 @@ function ScanContent() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 bg-white border border-[#E2E8F0] p-2.5 rounded-2xl shadow-sm self-start">
-            <ShieldCheck className="w-7 h-7 text-[#142B4A] p-1 bg-slate-100 rounded-xl" />
-            <div className="text-xs">
-              <div className="font-bold text-[#0F172A]">AICTE Trust Protocol</div>
-              <div className="text-slate-500 text-[11px]">SHA-256 Verifiable Registry</div>
+          <div className="flex flex-wrap items-center gap-3 self-start">
+            <button
+              onClick={() => {
+                setShowAiModal(true);
+                setAiNotice(null);
+              }}
+              className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
+            >
+              <Sparkles className="w-4 h-4 text-[#22D3EE]" />
+              <span>Don&apos;t have an APAAR ID? Create with AI</span>
+            </button>
+            <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] p-2 rounded-xl shadow-sm">
+              <ShieldCheck className="w-5 h-5 text-[#142B4A]" />
+              <div className="text-[11px] font-bold text-[#0F172A]">AICTE DigiLocker Protocol</div>
             </div>
           </div>
         </div>
@@ -668,23 +739,38 @@ function ScanContent() {
                 </div>
               </div>
             ) : result?.status === "NOT_FOUND" ? (
-              /* Not Found Card */
-              <div className="bg-white border border-[#E2E8F0] rounded-3xl p-8 text-center shadow-sm">
-                <XCircle className="w-12 h-12 text-rose-500 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-[#0F172A] mb-1">Record Not Found in AICTE Registry</h3>
-                <p className="text-xs text-slate-500 max-w-md mx-auto mb-5">
-                  {result.message || "No verified student matched the supplied APAAR ID."}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setManualInput("9283-4710-8521");
-                    performVerification("9283-4710-8521");
-                  }}
-                  className="px-4 py-2 rounded-xl bg-[#142B4A] text-white font-bold text-xs"
-                >
-                  Scan Valid Sample ID
-                </button>
+              /* Not Found Card with Direct AI Generator CTA */
+              <div className="bg-white border border-[#E2E8F0] rounded-3xl p-8 text-center shadow-sm space-y-4">
+                <XCircle className="w-12 h-12 text-rose-500 mx-auto" />
+                <div>
+                  <h3 className="text-lg font-bold text-[#0F172A] mb-1">APAAR Record Not Found</h3>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    {result.message || "No verified student matched the supplied APAAR ID in the AICTE registry."}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowAiModal(true);
+                      setAiNotice(null);
+                    }}
+                    className="px-5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
+                    <span>Create Your APAAR ID Automatically with AI</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setManualInput("9283-4710-8521");
+                      performVerification("9283-4710-8521");
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs"
+                  >
+                    Try Sample Verified ID
+                  </button>
+                </div>
               </div>
             ) : (
               /* Idle Standby Display */
@@ -692,22 +778,175 @@ function ScanContent() {
                 <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-[#142B4A] mb-4">
                   <QrCode className="w-7 h-7" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A] mb-1">Awaiting Student APAAR Scan</h3>
+                <h3 className="text-base font-bold text-[#0F172A] mb-1">Student Identity & APAAR Scanner</h3>
                 <p className="text-xs text-slate-500 max-w-sm mb-5">
-                  Start the camera on the left, upload an ID card image, or click one of the quick demo profiles above.
+                  Scan your student APAAR QR card, enter your 12-digit ID on the left, or generate your new APAAR ID automatically with AI.
                 </p>
-                <div className="flex items-center gap-4 text-xs text-slate-600 font-medium">
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Fast &lt; 200ms Auth
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> DigiLocker Synced
-                  </span>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setShowAiModal(true);
+                      setAiNotice(null);
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
+                    <span>Create My APAAR ID with AI</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setManualInput("9283-4710-8521");
+                      performVerification("9283-4710-8521");
+                    }}
+                    className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0F172A] font-bold text-xs"
+                  >
+                    Demo: View Aarav Profile
+                  </button>
                 </div>
               </div>
             )}
           </div>
         </div>
+
+        {/* Modal: Automated AI APAAR Creation for New Students */}
+        {showAiModal && (
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white border border-[#E2E8F0] rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl relative text-[#0F172A] my-8">
+              <button
+                onClick={() => setShowAiModal(false)}
+                className="absolute top-5 right-5 text-slate-400 hover:text-[#0F172A]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-9 h-9 rounded-xl bg-[#142B4A] text-[#22D3EE] flex items-center justify-center font-bold">
+                  <Sparkles className="w-5 h-5 text-[#22D3EE]" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black text-[#142B4A]">
+                    Automated AI Student APAAR Creation
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Consent-based Aadhaar authentication, instant duplicate detection, and AICTE compliance check.
+                  </p>
+                </div>
+              </div>
+
+              {/* AI Discrepancy Notice if verification failed */}
+              {aiNotice && (
+                <div className="mb-4 p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs space-y-1.5 text-amber-900">
+                  <div className="font-bold flex items-center gap-1.5 text-[11px] text-amber-950">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                    <span>AI Verification Flagged (Routed to Admin Panel):</span>
+                  </div>
+                  <p className="text-[11px] text-amber-800 leading-relaxed">{aiNotice.message}</p>
+                  {(aiNotice.flags || []).length > 0 && (
+                    <div className="text-[10px] text-rose-800 font-semibold pt-1 border-t border-amber-200">
+                      Discrepancies: {aiNotice.flags.join(" • ")}
+                    </div>
+                  )}
+                  <div className="text-[10px] text-slate-600 pt-1">
+                    Your record has been forwarded to the <strong>Institution & AICTE Admin Panel</strong> for manual review. Case Ref: <span className="font-mono font-bold text-[#142B4A]">{aiNotice.workflow_id}</span>
+                  </div>
+                </div>
+              )}
+
+              <form onSubmit={handleCreateApaarWithAi} className="space-y-3 text-xs">
+                <div>
+                  <label className="block font-bold text-[#0F172A] mb-1">Full Legal Name (as per 10th / Aadhaar) *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newStudentForm.full_name}
+                    onChange={(e) => setNewStudentForm({ ...newStudentForm, full_name: e.target.value })}
+                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl p-2.5 text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#0F172A] mb-1">12-Digit Aadhaar / VID *</label>
+                    <input
+                      type="text"
+                      required
+                      value={newStudentForm.aadhaar_number}
+                      onChange={(e) => setNewStudentForm({ ...newStudentForm, aadhaar_number: e.target.value })}
+                      className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl p-2.5 font-mono text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#0F172A] mb-1">Date of Birth</label>
+                    <input
+                      type="date"
+                      value={newStudentForm.dob}
+                      onChange={(e) => setNewStudentForm({ ...newStudentForm, dob: e.target.value })}
+                      className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl p-2.5 text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#0F172A] mb-1">Institution</label>
+                    <input
+                      type="text"
+                      value={newStudentForm.institution}
+                      onChange={(e) => setNewStudentForm({ ...newStudentForm, institution: e.target.value })}
+                      className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl p-2.5 text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#0F172A] mb-1">Branch</label>
+                    <input
+                      type="text"
+                      value={newStudentForm.branch}
+                      onChange={(e) => setNewStudentForm({ ...newStudentForm, branch: e.target.value })}
+                      className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl p-2.5 text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                </div>
+
+                {/* Mandatory Consent Box */}
+                <div className="p-3 rounded-2xl bg-slate-50 border border-[#142B4A]/30">
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={newStudentForm.student_consent}
+                      onChange={(e) => setNewStudentForm({ ...newStudentForm, student_consent: e.target.checked })}
+                      className="mt-0.5 rounded border-slate-300 text-[#142B4A] focus:ring-[#142B4A]"
+                    />
+                    <div className="text-[11px] text-[#0F172A] leading-relaxed">
+                      <strong className="text-[#142B4A]">Student Consent Authorization:</strong>
+                      <span className="text-slate-600 block mt-0.5">
+                        I hereby provide consent under the Aadhaar Act 2016 and AICTE DigiLocker Policy for demographic verification and issuance of my APAAR ID.
+                      </span>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="pt-2 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setShowAiModal(false)}
+                    className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-semibold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={aiLoading}
+                    className="px-5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all disabled:opacity-50"
+                  >
+                    <Sparkles className={`w-3.5 h-3.5 text-[#22D3EE] ${aiLoading ? "animate-spin" : ""}`} />
+                    <span>{aiLoading ? "Running AI Multi-Factor Engine..." : "Create & Authenticate with AI"}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

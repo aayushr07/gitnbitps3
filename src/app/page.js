@@ -134,32 +134,25 @@ export default function HomePage() {
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/students"
+              href="/scan"
               className="px-6 py-3 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-sm shadow-sm flex items-center gap-2 transition-all"
             >
-              <Sparkles className="w-4 h-4 text-[#22D3EE]" />
-              <span>AI New Student Verification</span>
+              <QrCode className="w-4 h-4 text-[#22D3EE]" />
+              <span>Student Portal (Login with APAAR)</span>
             </Link>
             <Link
-              href="/scan"
+              href="/admin"
               className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#E2E8F0] text-[#0F172A] font-bold text-sm shadow-sm flex items-center gap-2 transition-all"
             >
-              <QrCode className="w-4 h-4 text-[#142B4A]" />
-              <span>Open APAAR Scanner</span>
+              <ShieldCheck className="w-4 h-4 text-[#142B4A]" />
+              <span>Admin Panel (AI-Failed Approvals)</span>
             </Link>
             <Link
-              href="/workflow"
+              href="/students"
               className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#E2E8F0] text-[#0F172A] font-bold text-sm shadow-sm flex items-center gap-2 transition-all"
             >
-              <GitPullRequest className="w-4 h-4 text-[#142B4A]" />
-              <span>Multi-Level Approval Pipeline</span>
-            </Link>
-            <Link
-              href="/data-quality"
-              className="px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-[#E2E8F0] text-[#0F172A] font-bold text-sm shadow-sm flex items-center gap-2 transition-all"
-            >
-              <Wand2 className="w-4 h-4 text-[#142B4A]" />
-              <span>AI Data Quality Assistant</span>
+              <Users className="w-4 h-4 text-[#142B4A]" />
+              <span>Central Student Records</span>
             </Link>
           </div>
         </div>

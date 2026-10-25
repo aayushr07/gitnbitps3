@@ -246,6 +246,22 @@ export default function WorkflowPage() {
           </div>
         )}
 
+        {/* Unified Admin Panel Callout */}
+        <div className="p-3.5 rounded-2xl bg-cyan-50 border border-[#22D3EE]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-[#142B4A]">
+            <ShieldCheck className="w-4 h-4 text-[#22D3EE] flex-shrink-0" />
+            <span>
+              <strong>Streamlined Admin Portal:</strong> Clean records are verified automatically by AI. Visit the <strong>Admin Panel</strong> to approve AI-failed & flagged cases.
+            </span>
+          </div>
+          <Link
+            href="/admin"
+            className="px-3.5 py-1.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-1 self-start sm:self-auto transition-all"
+          >
+            <span>Open Admin Panel &rarr;</span>
+          </Link>
+        </div>
+
         {/* Header & Role Switcher Bar */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-6">
           <div>
