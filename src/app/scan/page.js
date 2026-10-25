@@ -21,7 +21,8 @@ import {
   ArrowRight,
   UserCheck,
   Clock,
-  Fingerprint
+  Fingerprint,
+  X
 } from "lucide-react";
 
 function ScanContent() {
@@ -268,21 +269,35 @@ function ScanContent() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 self-start">
+          <div className="flex flex-wrap items-center gap-2.5 self-start">
+            <a
+              href="https://apaar.education.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+              <span>Create on Official APAAR Portal</span>
+            </a>
+            <a
+              href="https://www.digilocker.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#0F172A] font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-[#142B4A]" />
+              <span>DigiLocker Portal</span>
+            </a>
             <button
               onClick={() => {
                 setShowAiModal(true);
                 setAiNotice(null);
               }}
-              className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-all"
+              className="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#142B4A] font-bold text-xs flex items-center gap-1.5 transition-all"
             >
-              <Sparkles className="w-4 h-4 text-[#22D3EE]" />
-              <span>Don&apos;t have an APAAR ID? Create with AI</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#142B4A]" />
+              <span>AI Simulator</span>
             </button>
-            <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] p-2 rounded-xl shadow-sm">
-              <ShieldCheck className="w-5 h-5 text-[#142B4A]" />
-              <div className="text-[11px] font-bold text-[#0F172A]">AICTE DigiLocker Protocol</div>
-            </div>
           </div>
         </div>
 
@@ -739,7 +754,7 @@ function ScanContent() {
                 </div>
               </div>
             ) : result?.status === "NOT_FOUND" ? (
-              /* Not Found Card with Direct AI Generator CTA */
+              /* Not Found Card with Direct Official Link & AI Generator CTA */
               <div className="bg-white border border-[#E2E8F0] rounded-3xl p-8 text-center shadow-sm space-y-4">
                 <XCircle className="w-12 h-12 text-rose-500 mx-auto" />
                 <div>
@@ -749,16 +764,34 @@ function ScanContent() {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+                  <a
+                    href="https://apaar.education.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+                    <span>Create on Official APAAR Portal</span>
+                  </a>
+                  <a
+                    href="https://www.digilocker.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#0F172A] font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#142B4A]" />
+                    <span>DigiLocker Portal</span>
+                  </a>
                   <button
                     type="button"
                     onClick={() => {
                       setShowAiModal(true);
                       setAiNotice(null);
                     }}
-                    className="px-5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+                    className="px-3.5 py-2.5 rounded-xl bg-slate-100 text-[#142B4A] hover:bg-slate-200 font-semibold text-xs flex items-center gap-1.5"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
-                    <span>Create Your APAAR ID Automatically with AI</span>
+                    <Sparkles className="w-3.5 h-3.5 text-[#142B4A]" />
+                    <span>AI Simulator</span>
                   </button>
                   <button
                     type="button"
@@ -766,7 +799,7 @@ function ScanContent() {
                       setManualInput("9283-4710-8521");
                       performVerification("9283-4710-8521");
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs"
+                    className="px-3.5 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs"
                   >
                     Try Sample Verified ID
                   </button>
@@ -780,18 +813,36 @@ function ScanContent() {
                 </div>
                 <h3 className="text-base font-bold text-[#0F172A] mb-1">Student Identity & APAAR Scanner</h3>
                 <p className="text-xs text-slate-500 max-w-sm mb-5">
-                  Scan your student APAAR QR card, enter your 12-digit ID on the left, or generate your new APAAR ID automatically with AI.
+                  Scan your student APAAR QR card or enter your 12-digit ID. If you do not have an APAAR ID yet, generate one on the official Government portal or DigiLocker.
                 </p>
-                <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
+                  <a
+                    href="https://apaar.education.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+                    <span>Create on Official APAAR Portal</span>
+                  </a>
+                  <a
+                    href="https://www.digilocker.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#0F172A] font-bold text-xs flex items-center gap-1.5 shadow-sm"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#142B4A]" />
+                    <span>DigiLocker Portal</span>
+                  </a>
                   <button
                     onClick={() => {
                       setShowAiModal(true);
                       setAiNotice(null);
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
+                    className="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#142B4A] font-bold text-xs flex items-center gap-1.5"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
-                    <span>Create My APAAR ID with AI</span>
+                    <Sparkles className="w-3.5 h-3.5 text-[#142B4A]" />
+                    <span>AI Simulator</span>
                   </button>
                   <button
                     onClick={() => {
@@ -800,7 +851,7 @@ function ScanContent() {
                     }}
                     className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0F172A] font-bold text-xs"
                   >
-                    Demo: View Aarav Profile
+                    Demo: Aarav Profile
                   </button>
                 </div>
               </div>
@@ -819,19 +870,87 @@ function ScanContent() {
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="flex items-center gap-2.5 mb-2">
+              <div className="flex items-center gap-2.5 mb-3">
                 <div className="w-9 h-9 rounded-xl bg-[#142B4A] text-[#22D3EE] flex items-center justify-center font-bold">
-                  <Sparkles className="w-5 h-5 text-[#22D3EE]" />
+                  <ExternalLink className="w-5 h-5 text-[#22D3EE]" />
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-black text-[#142B4A]">
-                    Automated AI Student APAAR Creation
+                    Create Official APAAR ID
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Consent-based Aadhaar authentication, instant duplicate detection, and AICTE compliance check.
+                    Official Government of India gateways for One Nation, One Student ID issuance & DigiLocker e-KYC.
                   </p>
                 </div>
               </div>
+
+              {/* Direct Government Portals */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-[#E2E8F0] flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#142B4A]">Official APAAR Portal</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">MoE Portal</span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Ministry of Education national portal for student registration and ABC card generation.
+                    </p>
+                  </div>
+                  <a
+                    href="https://apaar.education.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs text-center flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                  >
+                    <span>Visit apaar.education.gov.in</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+                  </a>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-[#E2E8F0] flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#142B4A]">DigiLocker Portal</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">e-KYC Verified</span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Generate your APAAR ID through Aadhaar OTP and store it directly in your digital wallet.
+                    </p>
+                  </div>
+                  <a
+                    href="https://www.digilocker.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#0F172A] font-bold text-xs text-center flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                  >
+                    <span>Visit digilocker.gov.in</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-[#142B4A]" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Instructions banner */}
+              <div className="p-2.5 rounded-xl bg-slate-100 text-[11px] text-slate-600 mb-4 flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>
+                  <strong>Workflow:</strong> Create your ID on DigiLocker or the official APAAR portal. Once generated, return here and enter your 12-digit ID to view your student profile.
+                </span>
+              </div>
+
+              {/* In-App SIH AI Pre-Enrollment Engine */}
+              <div className="pt-3 border-t border-[#E2E8F0]">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-bold text-[#142B4A] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
+                    <span>Campus AI Pre-Enrollment & Discrepancy Engine</span>
+                  </span>
+                  <span className="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold">
+                    SIH Demo Sandbox
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mb-3">
+                  Simulate local institutional onboarding with AI multi-factor authentication and automatic routing to the Admin Panel.
+                </p>
 
               {/* AI Discrepancy Notice if verification failed */}
               {aiNotice && (
@@ -943,6 +1062,7 @@ function ScanContent() {
                   </button>
                 </div>
               </form>
+            </div>
             </div>
           </div>
         )}

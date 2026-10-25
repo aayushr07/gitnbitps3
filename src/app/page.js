@@ -155,6 +155,30 @@ export default function HomePage() {
               <span>Central Student Records</span>
             </Link>
           </div>
+
+          {/* Official APAAR & DigiLocker Quick Gateway */}
+          <div className="mt-8 pt-6 border-t border-[#E2E8F0] flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500">
+            <span className="font-semibold text-[#0F172A]">Need to create an APAAR ID?</span>
+            <a
+              href="https://apaar.education.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-bold text-[#142B4A] hover:underline"
+            >
+              <span>Official APAAR Website (apaar.education.gov.in)</span>
+              <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+            </a>
+            <span className="text-slate-300">•</span>
+            <a
+              href="https://www.digilocker.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-bold text-[#142B4A] hover:underline"
+            >
+              <span>DigiLocker Portal (digilocker.gov.in)</span>
+              <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+            </a>
+          </div>
         </div>
       </section>
 

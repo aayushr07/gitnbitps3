@@ -15,7 +15,8 @@ import {
   Sparkles,
   Users,
   CheckCircle2,
-  Building2
+  Building2,
+  ExternalLink
 } from "lucide-react";
 
 export default function LoginPage() {
@@ -209,20 +210,33 @@ export default function LoginPage() {
             </form>
 
             {/* If Student Doesn't Have ID CTA */}
-            <div className="pt-4 border-t border-[#E2E8F0] bg-slate-50 p-4 rounded-2xl text-center space-y-2">
+            <div className="pt-4 border-t border-[#E2E8F0] bg-slate-50 p-4 rounded-2xl text-center space-y-2.5">
               <div className="text-xs font-bold text-[#0F172A]">
                 Don&apos;t have an APAAR ID yet?
               </div>
               <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
-                New students can generate an official APAAR ID automatically with AI in under 30 seconds.
+                Create your official 12-digit APAAR ID through DigiLocker or the official Government of India portal:
               </p>
-              <Link
-                href="/scan"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-[#22D3EE] text-[#142B4A] hover:bg-cyan-50 font-bold text-xs shadow-sm transition-all"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
-                <span>Create APAAR ID Automatically with AI &rarr;</span>
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
+                <a
+                  href="https://apaar.education.gov.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#22D3EE]" />
+                  <span>Official APAAR Website (apaar.education.gov.in)</span>
+                </a>
+                <a
+                  href="https://www.digilocker.gov.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#0F172A] font-bold text-xs shadow-sm transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#142B4A]" />
+                  <span>DigiLocker (digilocker.gov.in)</span>
+                </a>
+              </div>
             </div>
           </div>
         )}
