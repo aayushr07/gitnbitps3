@@ -1,75 +1,51 @@
-# AICTE APAAR ID Platform - Frontend Portal
+# AICTE APAAR ID Platform - Frontend Web Application
 
-A modern Next.js web application for AICTE-approved institutions providing APAAR ID QR verification, multi-level approval workflows, AI-powered student onboarding, and pre-submission data quality audits.
-
-Built for Smart India Hackathon (SIH26263).
+Modern Next.js 14 web application for the All India Council for Technical Education (AICTE) APAAR ID Student Data Management and Verification System (*One Nation, One Student ID*).
 
 ---
 
-## 🎨 Design System & Theme
+## 🎨 Official Color Scheme
 
-Designed in a **clean light theme** using the official palette:
-- **Navy Primary**: `#142B4A`
-- **Dark Slate**: `#0F172A`
+- **AICTE Deep Navy**: `#142B4A`
+- **Gov Dark Slate**: `#0F172A`
 - **Cyan Accent**: `#22D3EE`
-- **Border Slate**: `#E2E8F0`
+- **Borders**: `#E2E8F0`
 - **Surfaces**: `#F8FAFC` & `#FFFFFF`
 
 ---
 
 ## 🚀 Key Portal Features
 
-1. **Student Gateway & QR Scanner (`/scan`)**:
-   - Web camera and image upload scanner decoding student APAAR QR tokens.
-   - Real-time cryptographic validation with DigiLocker e-KYC and Academic Bank of Credits (ABC) breakdown.
-
-2. **AI-Powered New Student Onboarding (`/students`)**:
-   - Aadhaar consent authorization compliance under the Aadhaar Act 2016.
-   - Demographic fuzzy matching, nationwide duplicate/ghost student detection, and AICTE accreditation check.
-   - Evaluator demo test presets for 1-click hackathon evaluation.
-
-3. **Multi-Level Verification Workflow (`/workflow`)**:
-   - 4-Tier structured approval state machine:
-     1. College Operator (submits data & fixes remarks)
-     2. Institution Verifier (checks marksheets & verifies records)
-     3. Authorized Reviewer (resolves flagged dual-enrollment cases)
-     4. AICTE Central Admin (grants national digital seal)
-   - Cryptographic audit trail with timestamps and role actions.
-
-4. **AI-Powered Data Quality Assistant (`/data-quality`)**:
-   - Pre-submission dataset sanitizer detecting missing mandatory fields, institution name abbreviations, and out-of-bounds CGPA.
-   - 1-click suggested corrections and departmental quality scorecard.
-
-5. **Official Printable Student Card (`/student/[id]`)**:
-   - High-fidelity, print-ready AICTE ID card featuring dynamic QR code and security stamps.
-
-6. **AICTE Central Compliance & Fraud Sentinel (`/analytics`)**:
-   - Cross-institutional statistics, dual-enrollment fraud alerts, and ABC credit trends.
+1. **Home (`/`)**:
+   - National overview, real-time admission metrics, and interactive 6-stage lifecycle visualizer.
+2. **Institution Portal (`/institution`)**:
+   - Approved Intake capacity monitoring per program.
+   - Post-admission student data upload (Single Form + Bulk CSV).
+   - Pre-commit automated APAAR validation & anomaly checks (excess intake, duplicate enrollment).
+3. **AICTE Central Repository (`/students`)**:
+   - Master national registry with APAAR ID as unique academic identifier.
+   - Filters: Institution, Discipline, Supernumerary (TFW/EWS), NRI, OCI, and Foreign National (FN).
+4. **Admissions Monitoring & Governance (`/analytics`)**:
+   - Real-time intake vs enrolment monitoring dashboard.
+   - Excess intake anomaly sentinel banner.
+   - Policy-making & accreditation reports (1-click CSV export & print format).
+5. **Authorized Stakeholder Verification (`/scan`)**:
+   - Secure verification gateway for AICTE, employers, and regulatory bodies.
+   - Live camera QR scanning, image upload, and 12-digit APAAR query with SHA-256 seal.
+6. **Official Degree Certificate (`/student/[id]`)**:
+   - Prominently displays **both APAAR ID and Student ID / Roll No** on degree certificates issued by degree-awarding bodies.
+   - Print-ready convocation certificate layout.
+7. **Institutional ERP / API Integration (`/integration`)**:
+   - API sandbox with `X-AICTE-API-KEY` credentials and code snippets (cURL, Python, Node.js).
+8. **Stakeholder Authentication (`/login`)**:
+   - 1-Click persona logins for AICTE Admin, Institution Registrar, Employer Verifier, and Student.
 
 ---
 
-## ⚙️ Setup & Installation
+## ⚙️ Setup & Development
 
-1. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Configure Environment Variables**:
-   Copy `.env.example` to `.env.local`:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Configure `NEXTAUTH_SECRET` and `NEXTAUTH_URL` (defaults to `http://localhost:3000`).
-
-3. **Run the Development Server**:
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-4. **Production Build**:
-   ```bash
-   npm run build
-   npm start
-   ```
+```bash
+npm install
+npm run dev
+```
+*Frontend runs on `http://localhost:3000`.*

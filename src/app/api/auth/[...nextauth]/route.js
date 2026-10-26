@@ -4,9 +4,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "AICTE Multi-Level Authority / Student Login",
+      name: "AICTE Stakeholder Login",
       credentials: {
-        email: { label: "Email / APAAR ID", type: "text", placeholder: "operator@dtu.ac.in" },
+        email: { label: "Email / APAAR ID", type: "text", placeholder: "admin@aicte.gov.in" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
@@ -15,7 +15,7 @@ export const authOptions = {
         const email = credentials.email.trim().toLowerCase();
         const password = credentials.password;
 
-        // Call the Flask backend authentication
+        // Try backend Flask auth endpoint first
         try {
           const res = await fetch("http://127.0.0.1:5000/api/auth/login", {
             method: "POST",
@@ -30,56 +30,47 @@ export const authOptions = {
           console.warn("Backend auth fetch failed, falling back to local credentials:", err.message);
         }
 
-        // Local fallback for smooth evaluator testing
-        if (email === "operator@dtu.ac.in") {
+        // Local fallbacks for SIH evaluators
+        if (email === "admin@aicte.gov.in") {
           return {
-            id: "USR-OP-01",
-            name: "Ramesh Patel",
-            email: email,
-            role: "COLLEGE_OPERATOR",
-            role_title: "College Data Operator",
-            institution: "Delhi Technological University",
-            permissions: ["SUBMIT_STUDENT", "EDIT_REJECTED"]
-          };
-        } else if (email === "verifier@dtu.ac.in" || email === "dean@dtu.ac.in") {
-          return {
-            id: "USR-VER-02",
-            name: "Dr. Pradeep Kumar",
-            email: email,
-            role: "INSTITUTION_VERIFIER",
-            role_title: "Institution Verifier & Dean",
-            institution: "Delhi Technological University",
-            permissions: ["VERIFY_RECORDS", "APPROVE_INSTITUTION", "FLAG_RECORD", "REJECT_WITH_REMARKS"]
-          };
-        } else if (email === "reviewer@aicte.gov.in") {
-          return {
-            id: "USR-REV-03",
-            name: "Smt. Sunita Rao",
-            email: email,
-            role: "AUTHORIZED_REVIEWER",
-            role_title: "Authorized Reviewer (Grievance Cell)",
-            institution: "AICTE National Review Bureau",
-            permissions: ["RESOLVE_FLAGS", "INVESTIGATE_DUAL_SEATS", "CLEAR_REVIEW", "CONFIRM_FRAUD"]
-          };
-        } else if (email === "admin@aicte.gov.in") {
-          return {
-            id: "USR-ADM-04",
+            id: "USR-AICTE-01",
             name: "Prof. T. G. Sitharam",
             email: email,
             role: "AICTE_ADMIN",
-            role_title: "AICTE Central Administrator",
+            role_title: "AICTE Central Admin & Chairman",
             institution: "All India Council for Technical Education (HQ)",
-            permissions: ["ALL_PERMISSIONS", "FINAL_APPROVE", "OVERRIDE"]
+            permissions: ["NATIONAL_MONITORING", "INTAKE_ENFORCEMENT", "POLICY_REPORTS"]
+          };
+        } else if (email === "registrar@dtu.ac.in" || email === "operator@dtu.ac.in") {
+          return {
+            id: "USR-INST-02",
+            name: "Dr. Pradeep Kumar",
+            email: email,
+            role: "INSTITUTION_VERIFIER",
+            role_title: "Dean Academics & Registrar",
+            institution: "Delhi Technological University",
+            permissions: ["DATA_UPLOAD", "INTAKE_MANAGEMENT", "APAAR_VALIDATION"]
+          };
+        } else if (email === "verifier@tcs.com" || email === "employer@tcs.com") {
+          return {
+            id: "USR-STK-03",
+            name: "Rajiv Nair",
+            email: email,
+            role: "AUTHORIZED_VERIFIER",
+            role_title: "Authorized Verifier / Employer",
+            institution: "Tata Consultancy Services (TCS)",
+            permissions: ["INSTANT_VERIFICATION", "ACADEMIC_RECORD_QUERY"]
           };
         } else if (email === "student@dtu.ac.in" || email.startsWith("9283")) {
           return {
-            id: "USR-STU-01",
+            id: "USR-STU-04",
             name: "Aarav Sharma",
             email: "student@dtu.ac.in",
             role: "STUDENT",
-            role_title: "Student",
+            role_title: "Student (Verified)",
             apaar_id: "9283-4710-8521",
             institution: "Delhi Technological University",
+            permissions: ["VIEW_APAAR_PASSPORT", "PRINT_DEGREE_CERTIFICATE"]
           };
         }
 
@@ -87,9 +78,10 @@ export const authOptions = {
           id: "USR-DEMO",
           name: email.split("@")[0].toUpperCase(),
           email: email,
-          role: "COLLEGE_OPERATOR",
-          role_title: "College Operator",
-          institution: "AICTE Approved Institute",
+          role: "INSTITUTION_VERIFIER",
+          role_title: "Institution Officer",
+          institution: "AICTE Affiliated Institute",
+          permissions: ["DATA_UPLOAD", "APAAR_VALIDATION"]
         };
       }
     })
@@ -99,10 +91,12 @@ export const authOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.role = user.role;
         token.role_title = user.role_title;
         token.institution = user.institution;
@@ -112,7 +106,8 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) {
+      if (token && session.user) {
+        session.user.id = token.id;
         session.user.role = token.role;
         session.user.role_title = token.role_title;
         session.user.institution = token.institution;
@@ -122,7 +117,7 @@ export const authOptions = {
       return session;
     }
   },
-  secret: process.env.NEXTAUTH_SECRET || "aicte-apaar-sih-secret-2026",
+  secret: process.env.NEXTAUTH_SECRET || "aicte-apaar-sih-2026-secret-key-production-grade",
 };
 
 const handler = NextAuth(authOptions);
