@@ -28,6 +28,7 @@ export default function AnalyticsPage() {
   const [reportsData, setReportsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeReportTab, setActiveReportTab] = useState("INTAKE"); // 'INTAKE' | 'QUOTAS' | 'SENTINEL'
+  const [expandedInstId, setExpandedInstId] = useState(null);
 
   useEffect(() => {
     fetchDashboardData();
@@ -116,7 +117,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Top Metric Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
           
           <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
@@ -127,7 +128,7 @@ export default function AnalyticsPage() {
               {data?.total_approved_intake?.toLocaleString() || "840"}
             </div>
             <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-1 font-semibold">
-              <span>{institutions.length} Institutions (60 cutoff/dept)</span>
+              <span>{institutions.length || 6} Inst (60 cutoff/dept)</span>
             </div>
           </div>
 
@@ -137,36 +138,49 @@ export default function AnalyticsPage() {
               <CheckCircle2 className="w-4 h-4 text-blue-600" />
             </div>
             <div className="text-2xl font-black text-blue-700">
-              {data?.total_actual_enrolment?.toLocaleString() || "818"}
+              {data?.total_actual_enrolment?.toLocaleString() || "815"}
             </div>
             <div className="text-[10px] text-blue-600 font-bold mt-1">
-              {data?.intake_utilization_rate || 97.4}% Capacity Filled
+              {data?.intake_utilization_rate || 97.0}% Capacity Filled
             </div>
           </div>
 
           <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
-              <span className="font-bold uppercase tracking-wider text-[10px]">TFWS Quota (5%)</span>
-              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <span className="font-bold uppercase tracking-wider text-[10px]">Open Vacancy</span>
+              <Building2 className="w-4 h-4 text-emerald-600" />
             </div>
             <div className="text-2xl font-black text-emerald-700">
-              {data?.tfws_enrolled_total || 37} <span className="text-xs text-slate-500 font-semibold">/ {data?.tfws_quota_total || 42}</span>
+              {data?.total_vacant_seats ?? 33}
             </div>
-            <div className="text-[10px] text-slate-500 mt-1 font-medium">
-              3 seats per 60-seat department
+            <div className="text-[10px] text-emerald-600 font-semibold mt-1">
+              Seats Open for Enrolment
             </div>
           </div>
 
           <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
-              <span className="font-bold uppercase tracking-wider text-[10px]">EWS Quota (10%)</span>
-              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span className="font-bold uppercase tracking-wider text-[10px]">APAAR Linked</span>
+              <FileCheck className="w-4 h-4 text-indigo-600" />
             </div>
-            <div className="text-2xl font-black text-amber-700">
-              {data?.ews_enrolled_total || 75} <span className="text-xs text-slate-500 font-semibold">/ {data?.ews_quota_total || 84}</span>
+            <div className="text-2xl font-black text-indigo-700">
+              {data?.total_students || 19}
             </div>
-            <div className="text-[10px] text-slate-500 mt-1 font-medium">
-              6 seats per 60-seat department
+            <div className="text-[10px] text-indigo-600 font-semibold mt-1">
+              Verified Registry Profiles
+            </div>
+          </div>
+
+          <div className="bg-white border border-blue-200 bg-blue-50/30 rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between text-blue-800 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">100% Full Intake</span>
+              <Award className="w-4 h-4 text-blue-700" />
+            </div>
+            <div className="text-2xl font-black text-blue-800">
+              {data?.full_intake_count || 1}
+            </div>
+            <div className="text-[10px] text-blue-700 font-bold mt-1">
+              COEP Pune (180/180 Full)
             </div>
           </div>
 
@@ -180,7 +194,7 @@ export default function AnalyticsPage() {
               {data?.excess_intake_violations || 1}
             </div>
             <div className="text-[10px] text-rose-700 font-bold mt-1">
-              Over-Admission Flagged (Apex +8)
+              Over-Admission (Apex +8)
             </div>
           </div>
 
@@ -251,7 +265,7 @@ export default function AnalyticsPage() {
                 AICTE Annual Admission & Intake Compliance Master Report
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
-                Institutional data compiled for AICTE Council, State Technical Boards, NIRF, and NAAC accreditation.
+                Department-level sanctioned cutoff (60/dept), enrollment status, vacancies, supernumerary quotas, and APAAR verification records.
               </p>
             </div>
 
@@ -264,7 +278,7 @@ export default function AnalyticsPage() {
                     : "bg-slate-100 text-slate-600 hover:text-[#0F172A]"
                 }`}
               >
-                Intake Capacity
+                Intake & Vacancies
               </button>
               <button
                 onClick={() => setActiveReportTab("QUOTAS")}
@@ -290,15 +304,17 @@ export default function AnalyticsPage() {
                     <th className="p-3 font-bold">State</th>
                     {activeReportTab === "INTAKE" ? (
                       <>
-                        <th className="p-3 font-bold">Approved Intake (60/dept)</th>
-                        <th className="p-3 font-bold">Actual Enrolment</th>
-                        <th className="p-3 font-bold">Vacancy / Excess</th>
-                        <th className="p-3 font-bold">Compliance Status</th>
+                        <th className="p-3 font-bold">Departments</th>
+                        <th className="p-3 font-bold">Sanctioned Intake</th>
+                        <th className="p-3 font-bold">Enrolled</th>
+                        <th className="p-3 font-bold">APAAR Registered</th>
+                        <th className="p-3 font-bold">Capacity & Vacancy Status</th>
+                        <th className="p-3 font-bold text-center">Department Matrix</th>
                       </>
                     ) : (
                       <>
-                        <th className="p-3 font-bold">TFWS (Enr/Appr)</th>
-                        <th className="p-3 font-bold">EWS (Enr/Appr)</th>
+                        <th className="p-3 font-bold">TFWS (5%)</th>
+                        <th className="p-3 font-bold">EWS (10%)</th>
                         <th className="p-3 font-bold">Supernumerary Total</th>
                         <th className="p-3 font-bold">NRI (5%)</th>
                         <th className="p-3 font-bold">FN (15%)</th>
@@ -309,53 +325,131 @@ export default function AnalyticsPage() {
                 </thead>
                 <tbody className="divide-y divide-[#E2E8F0] bg-white">
                   {reportsData.map((row, idx) => {
-                    const isViolation = row.vacancy_or_excess > 0;
-                    return (
-                      <tr key={idx} className={isViolation ? "bg-rose-50/50 hover:bg-rose-50" : "hover:bg-slate-50"}>
-                        <td className="p-3 font-mono font-bold text-[#142B4A]">{row.aicte_id}</td>
-                        <td className="p-3 font-bold text-[#0F172A]">{row.institution_name}</td>
-                        <td className="p-3 text-slate-600">{row.state}</td>
+                    const isViolation = row.is_violation || row.excess_seats > 0;
+                    const isFull = row.is_full || (row.actual_enrolment === row.approved_intake);
+                    const isExpanded = expandedInstId === row.aicte_id;
 
-                        {activeReportTab === "INTAKE" ? (
-                          <>
-                            <td className="p-3 font-bold text-slate-800">{row.approved_intake} seats</td>
-                            <td className="p-3 font-bold text-blue-700">{row.actual_enrolment}</td>
-                            <td className="p-3 font-bold">
-                              {isViolation ? (
-                                <span className="text-rose-700">+{row.vacancy_or_excess} EXCESS</span>
-                              ) : (
-                                <span className="text-slate-500">{row.vacancy_or_excess} (Compliant)</span>
-                              )}
-                            </td>
-                            <td className="p-3">
-                              {isViolation ? (
-                                <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold">
-                                  NON-COMPLIANT
+                    return (
+                      <>
+                        <tr key={idx} className={isViolation ? "bg-rose-50/50 hover:bg-rose-50" : isFull ? "bg-blue-50/30 hover:bg-blue-50/50" : "hover:bg-slate-50"}>
+                          <td className="p-3 font-mono font-bold text-[#142B4A]">{row.aicte_id}</td>
+                          <td className="p-3 font-bold text-[#0F172A]">{row.institution_name}</td>
+                          <td className="p-3 text-slate-600">{row.state}</td>
+
+                          {activeReportTab === "INTAKE" ? (
+                            <>
+                              <td className="p-3 font-semibold text-slate-700">
+                                {row.departments_count || (row.programs?.length || 1)} Depts (60/ea)
+                              </td>
+                              <td className="p-3 font-black text-slate-900">{row.approved_intake} seats</td>
+                              <td className="p-3 font-black text-blue-700">{row.actual_enrolment}</td>
+                              <td className="p-3 font-bold text-indigo-700">
+                                <span className="inline-flex items-center gap-1">
+                                  <FileCheck className="w-3.5 h-3.5 text-indigo-600" />
+                                  <span>{row.registered_students || 0} students</span>
                                 </span>
-                              ) : (
-                                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                                  COMPLIANT
-                                </span>
-                              )}
+                              </td>
+                              <td className="p-3">
+                                {isViolation ? (
+                                  <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 text-[10px] font-black border border-rose-200">
+                                    +{row.excess_seats || row.vacancy_or_excess} OVER LIMIT (VIOLATION)
+                                  </span>
+                                ) : isFull ? (
+                                  <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-blue-200">
+                                    INTAKE FULL (180/180 • 100% FILLED)
+                                  </span>
+                                ) : (
+                                  <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                                    {row.vacant_seats || Math.max(0, row.approved_intake - row.actual_enrolment)} OPEN SEATS AVAILABLE
+                                  </span>
+                                )}
+                              </td>
+                              <td className="p-3 text-center">
+                                <button
+                                  onClick={() => setExpandedInstId(isExpanded ? null : row.aicte_id)}
+                                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] border border-slate-300 transition-all"
+                                >
+                                  {isExpanded ? "Hide Details" : "View Departments"}
+                                </button>
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="p-3 font-semibold text-emerald-800">
+                                {row.tfws_enrolled || 0} / {row.tfws_approved || 0}
+                              </td>
+                              <td className="p-3 font-semibold text-amber-800">
+                                {row.ews_enrolled || 0} / {row.ews_approved || 0}
+                              </td>
+                              <td className="p-3 font-semibold text-slate-700">
+                                {row.supernumerary_enrolled || 0} / {row.supernumerary_quota || 0}
+                              </td>
+                              <td className="p-3 font-semibold text-purple-700">{row.nri_enrolled || 0}</td>
+                              <td className="p-3 font-semibold text-blue-700">{row.fn_enrolled || 0}</td>
+                              <td className="p-3 font-bold text-emerald-700">{row.compliance_score || 98.0}%</td>
+                            </>
+                          )}
+                        </tr>
+
+                        {/* Department matrix accordion drawer */}
+                        {isExpanded && activeReportTab === "INTAKE" && (
+                          <tr className="bg-slate-50/80 border-b border-slate-200">
+                            <td colSpan={9} className="p-4 pl-8">
+                              <div className="bg-white rounded-xl border border-slate-200 p-3.5 space-y-2">
+                                <div className="text-[11px] font-bold text-[#142B4A] uppercase tracking-wider flex items-center justify-between">
+                                  <span>{row.institution_name} — Department Breakdown (60 Cutoff per Department)</span>
+                                  <span className="text-[10px] text-slate-500 font-normal">Sanctioned AICTE Divisions</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                                  {row.programs?.map((prog, pIdx) => {
+                                    const pAppr = prog.approved_intake || 60;
+                                    const pEnr = prog.actual_enrolment || 0;
+                                    const pVacant = Math.max(0, pAppr - pEnr);
+                                    const pExcess = Math.max(0, pEnr - pAppr);
+                                    const pFull = pEnr === pAppr;
+
+                                    return (
+                                      <div
+                                        key={pIdx}
+                                        className={`p-3 rounded-xl border text-xs space-y-1 ${
+                                          pExcess > 0
+                                            ? "border-rose-300 bg-rose-50/50"
+                                            : pFull
+                                            ? "border-blue-200 bg-blue-50/30"
+                                            : "border-slate-200 bg-slate-50"
+                                        }`}
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-bold text-[#0F172A]">{prog.program || prog.branch}</span>
+                                          <span className="text-[10px] font-mono font-bold text-[#142B4A]">{prog.branch}</span>
+                                        </div>
+                                        <div className="flex items-baseline justify-between text-slate-600">
+                                          <span>Enrolment / Cutoff:</span>
+                                          <span className="font-bold">
+                                            {pEnr} / {pAppr} seats
+                                          </span>
+                                        </div>
+                                        <div className="flex items-center justify-between pt-0.5">
+                                          {pExcess > 0 ? (
+                                            <span className="text-[10px] font-black text-rose-700">+{pExcess} Over Cutoff (Violation)</span>
+                                          ) : pFull ? (
+                                            <span className="text-[10px] font-black text-blue-700">100% Full (60/60 Filled)</span>
+                                          ) : (
+                                            <span className="text-[10px] font-bold text-emerald-700">{pVacant} Open Seats Available</span>
+                                          )}
+                                          <span className="text-[10px] text-slate-500">
+                                            TFWS: {prog.tfws_enrolled || 0}/{prog.tfws_approved || 3} • EWS: {prog.ews_enrolled || 0}/{prog.ews_approved || 6}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
                             </td>
-                          </>
-                        ) : (
-                          <>
-                            <td className="p-3 font-semibold text-emerald-800">
-                              {row.tfws_enrolled || 0} / {row.tfws_approved || 0}
-                            </td>
-                            <td className="p-3 font-semibold text-amber-800">
-                              {row.ews_enrolled || 0} / {row.ews_approved || 0}
-                            </td>
-                            <td className="p-3 font-semibold text-slate-700">
-                              {row.supernumerary_enrolled} / {row.supernumerary_quota}
-                            </td>
-                            <td className="p-3 font-semibold text-purple-700">{row.nri_enrolled}</td>
-                            <td className="p-3 font-semibold text-blue-700">{row.fn_enrolled}</td>
-                            <td className="p-3 font-bold text-emerald-700">{row.compliance_score}%</td>
-                          </>
+                          </tr>
                         )}
-                      </tr>
+                      </>
                     );
                   })}
                 </tbody>

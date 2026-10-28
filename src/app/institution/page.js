@@ -299,11 +299,15 @@ export default function InstitutionPortalPage() {
               <span className={`text-[10px] font-semibold mt-1.5 block ${
                 currentInstitution.actual_enrolment > currentInstitution.approved_intake
                   ? "text-rose-600 font-bold"
+                  : currentInstitution.actual_enrolment === currentInstitution.approved_intake
+                  ? "text-blue-700 font-bold"
                   : "text-slate-500"
               }`}>
                 {currentInstitution.actual_enrolment > currentInstitution.approved_intake
                   ? `⚠️ +${currentInstitution.actual_enrolment - currentInstitution.approved_intake} Over Cutoff!`
-                  : `Cutoff: 60/dept (${currentInstitution.approved_intake - currentInstitution.actual_enrolment} open)`}
+                  : currentInstitution.actual_enrolment === currentInstitution.approved_intake
+                  ? `100% Full Capacity (0 open • ${currentInstitution.registered_students || 0} registered)`
+                  : `Cutoff: 60/dept (${currentInstitution.approved_intake - currentInstitution.actual_enrolment} open • ${currentInstitution.registered_students || 0} registered)`}
               </span>
             </div>
 
@@ -979,12 +983,16 @@ export default function InstitutionPortalPage() {
                         </td>
                         <td className="p-3">
                           {isExcess ? (
-                            <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold">
-                              EXCESS INTAKE (+{prog.actual_enrolment - prog.approved_intake})
+                            <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-black border border-rose-200">
+                              EXCESS (+{prog.actual_enrolment - prog.approved_intake} OVER CUTOFF)
+                            </span>
+                          ) : prog.actual_enrolment === prog.approved_intake ? (
+                            <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-blue-200">
+                              INTAKE FULL (60/60)
                             </span>
                           ) : (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                              COMPLIANT
+                            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                              COMPLIANT ({(prog.approved_intake || 60) - prog.actual_enrolment} OPEN)
                             </span>
                           )}
                         </td>

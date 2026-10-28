@@ -223,7 +223,7 @@ export default function HomePage() {
             
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Total Students</span>
-              <span className="text-xl font-black text-[#142B4A]">{stats.total_students || 7}</span>
+              <span className="text-xl font-black text-[#142B4A]">{stats.total_students || 19}</span>
               <span className="text-[10px] text-emerald-600 font-semibold block mt-0.5">APAAR Linked</span>
             </div>
 
@@ -235,8 +235,8 @@ export default function HomePage() {
 
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Actual Enrolment</span>
-              <span className="text-xl font-black text-blue-700">{stats.total_actual_enrolment?.toLocaleString() || "818"}</span>
-              <span className="text-[10px] text-blue-600 font-semibold block mt-0.5">{stats.intake_utilization_rate || 97.4}% Utilized</span>
+              <span className="text-xl font-black text-blue-700">{stats.total_actual_enrolment?.toLocaleString() || "815"}</span>
+              <span className="text-[10px] text-blue-600 font-semibold block mt-0.5">{stats.intake_utilization_rate || 97.0}% Utilized</span>
             </div>
 
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
