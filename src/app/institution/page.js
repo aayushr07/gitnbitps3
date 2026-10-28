@@ -92,7 +92,20 @@ export default function InstitutionPortalPage() {
 
   const currentInstitution = institutions.find(
     (i) => i.aicte_id === selectedInstId
-  ) || institutions[0];
+  ) || institutions[0] || {
+    name: "Delhi Technological University",
+    aicte_id: "1-33271891",
+    state: "Delhi",
+    approved_intake: 240,
+    actual_enrolment: 224,
+    registered_students: 4,
+    programs: [
+      { branch: "CSE", program: "B.Tech Computer Science & Engineering", approved_intake: 60, actual_enrolment: 58, tfws_approved: 3, tfws_enrolled: 2, ews_approved: 6, ews_enrolled: 4 },
+      { branch: "AI & DS", program: "B.Tech Artificial Intelligence & Data Science", approved_intake: 60, actual_enrolment: 56, tfws_approved: 3, tfws_enrolled: 1, ews_approved: 6, ews_enrolled: 3 },
+      { branch: "ME", program: "B.Tech Mechanical Engineering", approved_intake: 60, actual_enrolment: 54, tfws_approved: 3, tfws_enrolled: 1, ews_approved: 6, ews_enrolled: 2 },
+      { branch: "EE", program: "B.Tech Electrical Engineering", approved_intake: 60, actual_enrolment: 56, tfws_approved: 3, tfws_enrolled: 1, ews_approved: 6, ews_enrolled: 2 },
+    ]
+  };
 
   const handleValidateSingle = async (e) => {
     e.preventDefault();
@@ -217,25 +230,25 @@ export default function InstitutionPortalPage() {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 text-[#0F172A] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="flex-1 bg-[#FAF8F5] text-[#0A2947] py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-7">
         
         {/* Toast */}
         {notification && (
-          <div className="fixed bottom-6 right-6 z-50 bg-[#142B4A] text-white px-4 py-3 rounded-2xl shadow-xl border border-cyan-400 text-xs flex items-center gap-2 animate-bounce">
-            <CheckCircle2 className="w-4 h-4 text-[#22D3EE]" />
+          <div className="fixed bottom-6 right-6 z-50 bg-[#0A2947] text-white px-4 py-3 rounded-2xl shadow-xl border border-[#D3D4C0] text-xs flex items-center gap-2 animate-bounce">
+            <CheckCircle2 className="w-4 h-4 text-[#F3E4C9]" />
             <span>{notification}</span>
           </div>
         )}
 
         {/* Header & Institution Switcher */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#D3D4C0] pb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-[#142B4A] text-xs font-semibold mb-2 border border-[#E2E8F0]">
-              <Building2 className="w-3.5 h-3.5 text-[#142B4A]" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F3E4C9]/70 text-[#0A2947] text-xs font-bold mb-2 border border-[#D3D4C0]">
+              <Building2 className="w-3.5 h-3.5 text-[#8B5E3C]" />
               <span>AICTE Approved Institution Admissions Portal</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-[#142B4A]">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#0A2947]">
               Post-Admission Student Data Ingestion
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
@@ -244,7 +257,7 @@ export default function InstitutionPortalPage() {
           </div>
 
           {/* Active Institution Selector */}
-          <div className="bg-white border border-[#E2E8F0] p-2 rounded-2xl shadow-sm flex items-center gap-2">
+          <div className="bg-white border border-[#D3D4C0] p-2 rounded-2xl shadow-xs flex items-center gap-2">
             <label className="text-xs font-bold text-slate-500 pl-2">Institution:</label>
             <select
               value={selectedInstId}
@@ -252,7 +265,7 @@ export default function InstitutionPortalPage() {
                 setSelectedInstId(e.target.value);
                 setValidationResults(null);
               }}
-              className="bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-1.5 text-xs font-bold text-[#142B4A] focus:outline-none focus:border-[#142B4A]"
+              className="bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-1.5 text-xs font-bold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
             >
               {institutions.map((inst) => (
                 <option key={inst.aicte_id} value={inst.aicte_id}>
@@ -268,29 +281,29 @@ export default function InstitutionPortalPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
             
             {/* Approved Intake vs Actual */}
-            <div className={`bg-white border rounded-2xl p-4 shadow-sm ${
+            <div className={`bg-white border rounded-2xl p-4 shadow-xs ${
               currentInstitution.actual_enrolment > currentInstitution.approved_intake 
                 ? "border-rose-300 bg-rose-50/20" 
-                : "border-[#E2E8F0]"
+                : "border-[#D3D4C0]"
             }`}>
               <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
                 <span className="font-bold uppercase tracking-wider text-[10px]">Sanctioned Intake</span>
-                <Users className="w-4 h-4 text-[#142B4A]" />
+                <Users className="w-4 h-4 text-[#0A2947]" />
               </div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-xl font-black text-[#142B4A]">
+                <span className="text-xl font-black text-[#0A2947]">
                   {currentInstitution.actual_enrolment}
                 </span>
                 <span className="text-[11px] text-slate-500 font-semibold">
                   / {currentInstitution.approved_intake} seats
                 </span>
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div className="mt-2 w-full bg-[#FAF8F5] rounded-full h-1.5 overflow-hidden border border-[#D3D4C0]/40">
                 <div
                   className={`h-full rounded-full transition-all ${
                     currentInstitution.actual_enrolment > currentInstitution.approved_intake
                       ? "bg-rose-500"
-                      : "bg-[#142B4A]"
+                      : "bg-[#0A2947]"
                   }`}
                   style={{
                     width: `${Math.min(100, (currentInstitution.actual_enrolment / currentInstitution.approved_intake) * 100)}%`,
@@ -301,7 +314,7 @@ export default function InstitutionPortalPage() {
                 currentInstitution.actual_enrolment > currentInstitution.approved_intake
                   ? "text-rose-600 font-bold"
                   : currentInstitution.actual_enrolment === currentInstitution.approved_intake
-                  ? "text-blue-700 font-bold"
+                  ? "text-[#8B5E3C] font-bold"
                   : "text-slate-500"
               }`}>
                 {currentInstitution.actual_enrolment > currentInstitution.approved_intake
@@ -313,110 +326,65 @@ export default function InstitutionPortalPage() {
             </div>
 
             {/* TFWS Quota (5% = 3 Seats / Dept) */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
               <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
                 <span className="font-bold uppercase tracking-wider text-[10px]">TFWS Quota (5%)</span>
                 <Sparkles className="w-4 h-4 text-emerald-600" />
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xl font-black text-emerald-700">
-                  {currentInstitution.actual_tfws || 0}
-                </span>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  / {currentInstitution.tfws_quota || (currentInstitution.programs?.length * 3) || 12}
+              <div className="text-xl font-black text-emerald-700">
+                {currentInstitution.programs?.reduce((acc, p) => acc + (p.tfws_enrolled || 0), 0) || 0}
+                <span className="text-[11px] text-slate-500 font-normal">
+                  {" "}/ {currentInstitution.programs?.reduce((acc, p) => acc + (p.tfws_approved || 3), 0) || 12} seats
                 </span>
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-emerald-500"
-                  style={{
-                    width: `${Math.min(100, ((currentInstitution.actual_tfws || 0) / (currentInstitution.tfws_quota || 1)) * 100)}%`,
-                  }}
-                />
-              </div>
-              <span className="text-[10px] text-slate-500 mt-1.5 block">
-                Tuition Fee Waiver (3 seats/dept)
+              <span className="text-[10px] text-emerald-600 font-semibold mt-1 block">
+                Tuition Fee Waiver Scheme
               </span>
             </div>
 
             {/* EWS Quota (10% = 6 Seats / Dept) */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
               <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
                 <span className="font-bold uppercase tracking-wider text-[10px]">EWS Quota (10%)</span>
-                <Sparkles className="w-4 h-4 text-amber-600" />
+                <Building2 className="w-4 h-4 text-[#8B5E3C]" />
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xl font-black text-amber-700">
-                  {currentInstitution.actual_ews || 0}
-                </span>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  / {currentInstitution.ews_quota || (currentInstitution.programs?.length * 6) || 24}
+              <div className="text-xl font-black text-[#8B5E3C]">
+                {currentInstitution.programs?.reduce((acc, p) => acc + (p.ews_enrolled || 0), 0) || 0}
+                <span className="text-[11px] text-slate-500 font-normal">
+                  {" "}/ {currentInstitution.programs?.reduce((acc, p) => acc + (p.ews_approved || 6), 0) || 24} seats
                 </span>
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-amber-500"
-                  style={{
-                    width: `${Math.min(100, ((currentInstitution.actual_ews || 0) / (currentInstitution.ews_quota || 1)) * 100)}%`,
-                  }}
-                />
-              </div>
-              <span className="text-[10px] text-slate-500 mt-1.5 block">
-                EWS supernumerary (6 seats/dept)
+              <span className="text-[10px] text-[#8B5E3C] font-semibold mt-1 block">
+                Economically Weaker Section
               </span>
             </div>
 
-            {/* Total Supernumerary Seats Quota */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            {/* Supernumerary Total */}
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
               <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
                 <span className="font-bold uppercase tracking-wider text-[10px]">Supernumerary</span>
-                <Sparkles className="w-4 h-4 text-cyan-600" />
+                <Users className="w-4 h-4 text-indigo-600" />
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xl font-black text-cyan-700">
-                  {currentInstitution.actual_supernumerary || 0}
-                </span>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  / {currentInstitution.supernumerary_quota || 0}
-                </span>
+              <div className="text-xl font-black text-[#0A2947]">
+                {currentInstitution.programs?.reduce((acc, p) => acc + (p.supernumerary_enrolled || 0), 0) || 0}
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-cyan-500"
-                  style={{
-                    width: `${Math.min(100, ((currentInstitution.actual_supernumerary || 0) / (currentInstitution.supernumerary_quota || 1)) * 100)}%`,
-                  }}
-                />
-              </div>
-              <span className="text-[10px] text-slate-500 mt-1.5 block">
-                TFWS + EWS + PMSSS/Sports
+              <span className="text-[10px] text-slate-500 font-semibold mt-1 block">
+                TFW + PMSSS + Sports + Defense
               </span>
             </div>
 
-            {/* NRI / FN Quota */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            {/* International (NRI / OCI / FN) */}
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
               <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
-                <span className="font-bold uppercase tracking-wider text-[10px]">NRI & Foreign (FN)</span>
+                <span className="font-bold uppercase tracking-wider text-[10px]">NRI / FN / OCI</span>
                 <Globe2 className="w-4 h-4 text-purple-600" />
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xl font-black text-purple-700">
-                  {(currentInstitution.actual_nri || 0) + (currentInstitution.actual_fn || 0)}
-                </span>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  / {(currentInstitution.nri_quota || 0) + (currentInstitution.fn_quota || 0)}
-                </span>
+              <div className="text-xl font-black text-purple-700">
+                {(currentInstitution.programs?.reduce((acc, p) => acc + (p.nri_enrolled || 0), 0) || 0) +
+                  (currentInstitution.programs?.reduce((acc, p) => acc + (p.fn_enrolled || 0), 0) || 0)}
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-purple-500"
-                  style={{
-                    width: `${Math.min(100, (((currentInstitution.actual_nri || 0) + (currentInstitution.actual_fn || 0)) / Math.max(1, (currentInstitution.nri_quota || 0) + (currentInstitution.fn_quota || 0))) * 100)}%`,
-                  }}
-                />
-              </div>
-              <span className="text-[10px] text-slate-500 mt-1.5 block">
-                5% NRI ({currentInstitution.actual_nri || 0}) • 15% FN ({currentInstitution.actual_fn || 0})
+              <span className="text-[10px] text-purple-600 font-semibold mt-1 block">
+                Foreign & Non-Resident
               </span>
             </div>
 
@@ -424,16 +392,16 @@ export default function InstitutionPortalPage() {
         )}
 
         {/* Tab Selection */}
-        <div className="flex border-b border-[#E2E8F0] space-x-4">
+        <div className="flex border-b border-[#D3D4C0] space-x-4">
           <button
             onClick={() => setActiveTab("UPLOAD")}
             className={`pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 ${
               activeTab === "UPLOAD"
-                ? "border-[#142B4A] text-[#142B4A]"
-                : "border-transparent text-slate-500 hover:text-[#0F172A]"
+                ? "border-[#8B5E3C] text-[#0A2947]"
+                : "border-transparent text-slate-500 hover:text-[#0A2947]"
             }`}
           >
-            <UploadCloud className="w-4 h-4" />
+            <UploadCloud className="w-4 h-4 text-[#8B5E3C]" />
             <span>Single Student Post-Admission Form</span>
           </button>
 
@@ -441,11 +409,11 @@ export default function InstitutionPortalPage() {
             onClick={() => setActiveTab("BATCH")}
             className={`pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 ${
               activeTab === "BATCH"
-                ? "border-[#142B4A] text-[#142B4A]"
-                : "border-transparent text-slate-500 hover:text-[#0F172A]"
+                ? "border-[#8B5E3C] text-[#0A2947]"
+                : "border-transparent text-slate-500 hover:text-[#0A2947]"
             }`}
           >
-            <FileSpreadsheet className="w-4 h-4" />
+            <FileSpreadsheet className="w-4 h-4 text-[#8B5E3C]" />
             <span>Batch Ingestion & SIH Anomaly Tester</span>
           </button>
 
@@ -453,19 +421,19 @@ export default function InstitutionPortalPage() {
             onClick={() => setActiveTab("PROGRAMS")}
             className={`pb-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 ${
               activeTab === "PROGRAMS"
-                ? "border-[#142B4A] text-[#142B4A]"
-                : "border-transparent text-slate-500 hover:text-[#0F172A]"
+                ? "border-[#8B5E3C] text-[#0A2947]"
+                : "border-transparent text-slate-500 hover:text-[#0A2947]"
             }`}
           >
-            <Building2 className="w-4 h-4" />
+            <Building2 className="w-4 h-4 text-[#8B5E3C]" />
             <span>Department-wise Approved Intake Matrix</span>
           </button>
 
           <Link
             href="/integration"
-            className="pb-3 text-xs font-semibold text-slate-500 hover:text-[#142B4A] transition-colors flex items-center gap-1.5 ml-auto"
+            className="pb-3 text-xs font-bold text-slate-500 hover:text-[#8B5E3C] transition-colors flex items-center gap-1.5 ml-auto"
           >
-            <Code2 className="w-4 h-4 text-[#142B4A]" />
+            <Code2 className="w-4 h-4 text-[#0A2947]" />
             <span>ERP & SIS Integration API &rarr;</span>
           </Link>
         </div>
@@ -474,9 +442,9 @@ export default function InstitutionPortalPage() {
         {/* TAB 1: SINGLE STUDENT POST-ADMISSION REGISTRATION FORM */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "UPLOAD" && (
-          <div className="bg-white border border-[#E2E8F0] rounded-3xl p-6 sm:p-8 shadow-sm">
+          <div className="bg-white border border-[#D3D4C0] rounded-3xl p-6 sm:p-8 shadow-xs">
             <div className="mb-6">
-              <h2 className="text-lg font-black text-[#142B4A]">
+              <h2 className="text-lg font-black text-[#0A2947]">
                 Post-Admission Student Registration Form
               </h2>
               <p className="text-xs text-slate-500 mt-1">
@@ -489,7 +457,7 @@ export default function InstitutionPortalPage() {
               {/* Row 1: APAAR ID & Student ID */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
                     12-Digit APAAR ID <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -498,13 +466,13 @@ export default function InstitutionPortalPage() {
                     value={singleForm.apaar_id}
                     onChange={(e) => setSingleForm({ ...singleForm, apaar_id: e.target.value })}
                     placeholder="9283-4710-8521"
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs font-mono text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs font-mono text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                   <p className="text-[10px] text-slate-400 mt-1">National Academic Identifier</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
                     Student ID / Roll No <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -513,14 +481,14 @@ export default function InstitutionPortalPage() {
                     value={singleForm.student_id}
                     onChange={(e) => setSingleForm({ ...singleForm, student_id: e.target.value })}
                     placeholder="DTU/2024/CSE/055"
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                   <p className="text-[10px] text-slate-400 mt-1">Printed on Degree Certificate</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">
-                    Student Full Name <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
+                    Full Legal Name <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -528,100 +496,99 @@ export default function InstitutionPortalPage() {
                     value={singleForm.full_name}
                     onChange={(e) => setSingleForm({ ...singleForm, full_name: e.target.value })}
                     placeholder="Ananya Mukherjee"
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
+                  <p className="text-[10px] text-slate-400 mt-1">As registered in APAAR / Aadhaar</p>
                 </div>
               </div>
 
               {/* Row 2: Demographics */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Date of Birth</label>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">Date of Birth</label>
                   <input
                     type="date"
                     value={singleForm.dob}
                     onChange={(e) => setSingleForm({ ...singleForm, dob: e.target.value })}
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Gender</label>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">Gender</label>
                   <select
                     value={singleForm.gender}
                     onChange={(e) => setSingleForm({ ...singleForm, gender: e.target.value })}
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   >
-                    <option value="Male">Male</option>
                     <option value="Female">Female</option>
+                    <option value="Male">Male</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Email</label>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">Official Email</label>
                   <input
                     type="email"
                     value={singleForm.email}
                     onChange={(e) => setSingleForm({ ...singleForm, email: e.target.value })}
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    placeholder="student@institution.edu.in"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Phone</label>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">Phone Number</label>
                   <input
-                    type="text"
+                    type="tel"
                     value={singleForm.phone}
                     onChange={(e) => setSingleForm({ ...singleForm, phone: e.target.value })}
-                    className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    placeholder="+91 98765 43210"
+                    className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
               </div>
 
-              {/* Row 3: Program & Intake Allocation */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-2xl bg-slate-50 border border-[#E2E8F0]">
-                <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Program</label>
-                  <input
-                    type="text"
-                    value={singleForm.program}
-                    onChange={(e) => setSingleForm({ ...singleForm, program: e.target.value })}
-                    className="w-full bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Branch Code</label>
+              {/* Row 3: Program & Approved Intake Branch Selection */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
+                    AICTE Approved Program & Department <span className="text-rose-500">*</span>
+                  </label>
                   <select
                     value={singleForm.branch}
-                    onChange={(e) => setSingleForm({ ...singleForm, branch: e.target.value })}
-                    className="w-full bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    onChange={(e) => {
+                      const branchCode = e.target.value;
+                      const prog = currentInstitution?.programs?.find((p) => p.branch === branchCode);
+                      setSingleForm({
+                        ...singleForm,
+                        branch: branchCode,
+                        program: prog ? prog.program : branchCode,
+                      });
+                    }}
+                    className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs font-semibold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   >
-                    <option value="CSE">CSE (Computer Science)</option>
-                    <option value="AI & DS">AI & DS (Artificial Intelligence)</option>
-                    <option value="ENTC">ENTC (Electronics)</option>
-                    <option value="ME">ME (Mechanical)</option>
-                    <option value="EE">EE (Electrical)</option>
-                    <option value="PGDM">PGDM (Management)</option>
+                    {currentInstitution?.programs?.map((prog) => (
+                      <option key={prog.branch} value={prog.branch}>
+                        {prog.program} ({prog.branch}) — Sanctioned Cutoff: {prog.approved_intake || 60} Seats | Enrolled: {prog.actual_enrolment}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#0F172A] mb-1">Admission Year</label>
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">Admission Year</label>
                   <input
                     type="number"
                     value={singleForm.admission_year}
                     onChange={(e) => setSingleForm({ ...singleForm, admission_year: parseInt(e.target.value) })}
-                    className="w-full bg-white border border-[#E2E8F0] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
               </div>
 
               {/* Row 4: Quota Specific Fields (Supernumerary, TFWS, EWS, NRI, FN) */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-cyan-50/40 border border-cyan-200">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-[#F3E4C9]/40 border border-[#D3D4C0]">
                 <div>
-                  <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
                     Intake Seat Category
                   </label>
                   <select
@@ -637,7 +604,7 @@ export default function InstitutionPortalPage() {
                         admission_category: val === "None" ? "Regular Merit" : val,
                       });
                     }}
-                    className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs font-semibold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   >
                     <option value="None">Regular Sanctioned Seat (Cutoff: 60)</option>
                     <option value="TFWS">TFWS (Tuition Fee Waiver - 3 seats max / 5%)</option>
@@ -649,7 +616,7 @@ export default function InstitutionPortalPage() {
 
                 {singleForm.supernumerary_type === "TFWS" ? (
                   <div>
-                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                    <label className="block text-xs font-bold text-[#0A2947] mb-1">
                       Parental Annual Income
                     </label>
                     <input
@@ -657,12 +624,12 @@ export default function InstitutionPortalPage() {
                       value={singleForm.family_annual_income || ""}
                       onChange={(e) => setSingleForm({ ...singleForm, family_annual_income: e.target.value })}
                       placeholder="e.g. ₹3,80,000 / annum"
-                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                      className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                     />
                   </div>
                 ) : singleForm.supernumerary_type === "EWS" ? (
                   <div>
-                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                    <label className="block text-xs font-bold text-[#0A2947] mb-1">
                       EWS Certificate Number
                     </label>
                     <input
@@ -670,18 +637,18 @@ export default function InstitutionPortalPage() {
                       value={singleForm.ews_certificate_no || ""}
                       onChange={(e) => setSingleForm({ ...singleForm, ews_certificate_no: e.target.value })}
                       placeholder="e.g. EWS/2024/DEL/8821"
-                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                      className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                     />
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                    <label className="block text-xs font-bold text-[#0A2947] mb-1">
                       NRI Category
                     </label>
                     <select
                       value={singleForm.nri_category}
                       onChange={(e) => setSingleForm({ ...singleForm, nri_category: e.target.value })}
-                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                      className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs font-semibold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                     >
                       <option value="Not Applicable">Not Applicable</option>
                       <option value="NRI">NRI (Non-Resident Indian)</option>
@@ -691,7 +658,7 @@ export default function InstitutionPortalPage() {
                 )}
 
                 <div>
-                  <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
                     Foreign National (FN)?
                   </label>
                   <select
@@ -704,7 +671,7 @@ export default function InstitutionPortalPage() {
                         passport_country: isFn ? "Nepal" : "India",
                       });
                     }}
-                    className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs font-semibold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   >
                     <option value="No">No (Indian Citizen)</option>
                     <option value="Yes">Yes (Foreign Citizen)</option>
@@ -712,7 +679,7 @@ export default function InstitutionPortalPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                  <label className="block text-xs font-bold text-[#0A2947] mb-1">
                     Passport / Country
                   </label>
                   <input
@@ -720,7 +687,7 @@ export default function InstitutionPortalPage() {
                     value={singleForm.passport_country}
                     onChange={(e) => setSingleForm({ ...singleForm, passport_country: e.target.value })}
                     placeholder="India / Nepal / USA"
-                    className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    className="w-full bg-white border border-[#D3D4C0] rounded-xl px-3 py-2 text-xs text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
               </div>
@@ -732,21 +699,21 @@ export default function InstitutionPortalPage() {
                   id="consentCheckbox"
                   checked={singleForm.student_consent}
                   onChange={(e) => setSingleForm({ ...singleForm, student_consent: e.target.checked })}
-                  className="mt-0.5 rounded text-[#142B4A] focus:ring-[#142B4A]"
+                  className="mt-0.5 rounded text-[#0A2947] focus:ring-[#8B5E3C]"
                 />
                 <label htmlFor="consentCheckbox" className="text-xs text-slate-600">
-                  <span className="font-bold text-[#0F172A]">Mandatory Aadhaar & APAAR Consent Granted:</span> Student has signed digital consent authorizing AICTE to verify and seed APAAR ID into the National Academic Registry in compliance with the Digital Personal Data Protection Act.
+                  <span className="font-bold text-[#0A2947]">Mandatory Aadhaar & APAAR Consent Granted:</span> Student has signed digital consent authorizing AICTE to verify and seed APAAR ID into the National Academic Registry in compliance with the Digital Personal Data Protection Act.
                 </label>
               </div>
 
               {/* Actions */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E2E8F0]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#D3D4C0]">
                 <button
                   type="submit"
                   disabled={validationLoading}
-                  className="px-6 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-2 transition-all disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-xl bg-[#0A2947] hover:bg-[#8B5E3C] text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all disabled:opacity-50"
                 >
-                  <FileCheck2 className="w-4 h-4 text-[#22D3EE]" />
+                  <FileCheck2 className="w-4 h-4 text-[#F3E4C9]" />
                   <span>{validationLoading ? "Running Automated Validation..." : "Validate Record Against Approved Intake"}</span>
                 </button>
 
@@ -755,7 +722,7 @@ export default function InstitutionPortalPage() {
                     type="button"
                     disabled={!validationResults.validation?.is_valid || submitLoading}
                     onClick={handleCommitValidRecords}
-                    className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-2 transition-all disabled:opacity-40"
+                    className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all disabled:opacity-40"
                   >
                     <CheckCircle2 className="w-4 h-4 text-emerald-200" />
                     <span>{submitLoading ? "Registering to AICTE..." : "Commit Valid Student to Central Repository"}</span>
@@ -770,10 +737,10 @@ export default function InstitutionPortalPage() {
         {/* TAB 2: BATCH INGESTION & SIH ANOMALY TESTER */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "BATCH" && (
-          <div className="bg-white border border-[#E2E8F0] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="bg-white border border-[#D3D4C0] rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-black text-[#142B4A]">
+                <h2 className="text-lg font-black text-[#0A2947]">
                   Bulk CSV Ingestion & AICTE Anomaly Detection Sandbox
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -785,16 +752,16 @@ export default function InstitutionPortalPage() {
                 type="button"
                 onClick={handleLoadSampleBatch}
                 disabled={validationLoading}
-                className="px-4 py-2.5 rounded-xl bg-cyan-50 border border-cyan-300 hover:bg-cyan-100 text-[#142B4A] font-bold text-xs transition-all flex items-center gap-2 self-start"
+                className="px-4 py-2.5 rounded-xl bg-[#F3E4C9]/70 border border-[#D3D4C0] hover:bg-[#F3E4C9] text-[#0A2947] font-bold text-xs transition-all flex items-center gap-2 self-start shadow-xs"
               >
-                <Sparkles className="w-4 h-4 text-[#142B4A]" />
+                <Sparkles className="w-4 h-4 text-[#8B5E3C]" />
                 <span>1-Click Load SIH Demo Batch (With Anomaly Triggers)</span>
               </button>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-[#E2E8F0] text-xs text-slate-600 space-y-1.5">
-              <div className="font-bold text-[#0F172A] flex items-center gap-1.5">
-                <Info className="w-4 h-4 text-[#142B4A]" />
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#D3D4C0] text-xs text-slate-600 space-y-1.5">
+              <div className="font-bold text-[#0A2947] flex items-center gap-1.5">
+                <Info className="w-4 h-4 text-[#8B5E3C]" />
                 <span>Evaluator Testing Guide (Problem Statement Requirements & Quota Rules):</span>
               </div>
               <p>
@@ -815,14 +782,14 @@ export default function InstitutionPortalPage() {
             {validationResults && validationResults.type === "BATCH" && (
               <div className="pt-2">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="text-xs font-bold text-[#0F172A]">
+                  <div className="text-xs font-bold text-[#0A2947]">
                     Automated Batch Validation Summary:
                   </div>
                   <button
                     type="button"
                     disabled={validationResults.validation?.valid_count === 0 || submitLoading}
                     onClick={handleCommitValidRecords}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 disabled:opacity-40"
+                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs flex items-center gap-1.5 disabled:opacity-40"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Commit {validationResults.validation?.valid_count} Valid Students to Central Repository</span>
@@ -830,9 +797,9 @@ export default function InstitutionPortalPage() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="p-3 rounded-xl bg-slate-100 border border-slate-200 text-center">
+                  <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0] text-center">
                     <span className="text-[10px] text-slate-500 uppercase font-bold block">Total Ingested</span>
-                    <span className="text-xl font-black text-[#142B4A]">{validationResults.validation?.total_submitted}</span>
+                    <span className="text-xl font-black text-[#0A2947]">{validationResults.validation?.total_submitted}</span>
                   </div>
                   <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
                     <span className="text-[10px] text-emerald-600 uppercase font-bold block">Passed Validation</span>
@@ -845,9 +812,9 @@ export default function InstitutionPortalPage() {
                 </div>
 
                 {/* Batch Records Table */}
-                <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden">
+                <div className="border border-[#D3D4C0] rounded-2xl overflow-hidden">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-[#142B4A] text-white">
+                    <thead className="bg-[#0A2947] text-[#F3E4C9]">
                       <tr>
                         <th className="p-3 font-bold">APAAR ID</th>
                         <th className="p-3 font-bold">Student Name</th>
@@ -856,13 +823,13 @@ export default function InstitutionPortalPage() {
                         <th className="p-3 font-bold">Identified Violations</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#E2E8F0] bg-white">
+                    <tbody className="divide-y divide-[#D3D4C0] bg-white">
                       {validationResults.validation?.results?.map((res, idx) => (
-                        <tr key={idx} className={res.is_valid ? "hover:bg-slate-50" : "bg-rose-50/30"}>
-                          <td className="p-3 font-mono font-bold text-[#142B4A]">
+                        <tr key={idx} className={res.is_valid ? "hover:bg-[#FAF8F5]" : "bg-rose-50/30"}>
+                          <td className="p-3 font-mono font-bold text-[#0A2947]">
                             {res.record?.apaar_id || "MISSING"}
                           </td>
-                          <td className="p-3 font-semibold text-[#0F172A]">
+                          <td className="p-3 font-semibold text-[#0A2947]">
                             {res.record?.full_name}
                             <span className="block text-[10px] text-slate-400 font-mono">
                               {res.record?.student_id}
@@ -916,19 +883,19 @@ export default function InstitutionPortalPage() {
         {/* TAB 3: DEPARTMENT-WISE APPROVED INTAKE MATRIX */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "PROGRAMS" && currentInstitution && (
-          <div className="bg-white border border-[#E2E8F0] rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+          <div className="bg-white border border-[#D3D4C0] rounded-3xl p-6 sm:p-8 shadow-xs space-y-5">
             <div>
-              <h2 className="text-lg font-black text-[#142B4A]">
-                {currentInstitution.name} — Approved Intake Matrix
+              <h2 className="text-lg font-black text-[#0A2947]">
+                {currentInstitution?.name} — Approved Intake Matrix
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
                 AICTE Sanctioned capacity breakdown for each program, supernumerary allowances, and international quotas.
               </p>
             </div>
 
-            <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden">
+            <div className="border border-[#D3D4C0] rounded-2xl overflow-hidden">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#142B4A] text-white">
+                <thead className="bg-[#0A2947] text-[#F3E4C9]">
                   <tr>
                     <th className="p-3 font-bold">Program & Branch</th>
                     <th className="p-3 font-bold">Approved Cutoff</th>
@@ -941,24 +908,24 @@ export default function InstitutionPortalPage() {
                     <th className="p-3 font-bold">Compliance Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E2E8F0] bg-white">
-                  {currentInstitution.programs?.map((prog, idx) => {
+                <tbody className="divide-y divide-[#D3D4C0] bg-white">
+                  {currentInstitution?.programs?.map((prog, idx) => {
                     const isExcess = prog.actual_enrolment > prog.approved_intake;
                     const isTfwsFull = (prog.tfws_enrolled || 0) >= (prog.tfws_approved || 3);
                     const isEwsFull = (prog.ews_enrolled || 0) >= (prog.ews_approved || 6);
 
                     return (
-                      <tr key={idx} className={isExcess ? "bg-rose-50/40" : "hover:bg-slate-50"}>
-                        <td className="p-3 font-bold text-[#142B4A]">
+                      <tr key={idx} className={isExcess ? "bg-rose-50/40" : "hover:bg-[#FAF8F5]"}>
+                        <td className="p-3 font-bold text-[#0A2947]">
                           {prog.program}
                           <span className="block text-[10px] text-slate-400 font-normal">
                             Code: {prog.branch}
                           </span>
                         </td>
-                        <td className="p-3 font-bold text-[#0F172A]">{prog.approved_intake || 60} seats</td>
-                        <td className="p-3 font-bold text-blue-700">{prog.actual_enrolment} enrolled</td>
+                        <td className="p-3 font-bold text-[#0A2947]">{prog.approved_intake || 60} seats</td>
+                        <td className="p-3 font-bold text-[#0A2947]">{prog.actual_enrolment} enrolled</td>
                         <td className="p-3 font-semibold">
-                          <span className={isTfwsFull ? "text-amber-700 font-bold" : "text-emerald-700 font-bold"}>
+                          <span className={isTfwsFull ? "text-[#8B5E3C] font-bold" : "text-emerald-700 font-bold"}>
                             {prog.tfws_enrolled || 0} / {prog.tfws_approved || 3}
                           </span>
                           <span className="block text-[9px] text-slate-400">
@@ -966,7 +933,7 @@ export default function InstitutionPortalPage() {
                           </span>
                         </td>
                         <td className="p-3 font-semibold">
-                          <span className={isEwsFull ? "text-amber-700 font-bold" : "text-emerald-700 font-bold"}>
+                          <span className={isEwsFull ? "text-[#8B5E3C] font-bold" : "text-emerald-700 font-bold"}>
                             {prog.ews_enrolled || 0} / {prog.ews_approved || 6}
                           </span>
                           <span className="block text-[9px] text-slate-400">
@@ -988,7 +955,7 @@ export default function InstitutionPortalPage() {
                               EXCESS (+{prog.actual_enrolment - prog.approved_intake} OVER CUTOFF)
                             </span>
                           ) : prog.actual_enrolment === prog.approved_intake ? (
-                            <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black border border-blue-200">
+                            <span className="px-2 py-0.5 rounded-full bg-[#F3E4C9] text-[#0A2947] text-[10px] font-black border border-[#D3D4C0]">
                               INTAKE FULL (60/60)
                             </span>
                           ) : (
@@ -1008,7 +975,7 @@ export default function InstitutionPortalPage() {
 
         {/* Validation Results Drawer (For Single Record) */}
         {validationResults && validationResults.type === "SINGLE" && (
-          <div className="bg-white border-2 border-[#142B4A] rounded-3xl p-6 shadow-md space-y-4">
+          <div className="bg-white border-2 border-[#0A2947] rounded-3xl p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {validationResults.validation?.is_valid ? (
@@ -1016,7 +983,7 @@ export default function InstitutionPortalPage() {
                 ) : (
                   <AlertTriangle className="w-5 h-5 text-rose-600" />
                 )}
-                <h3 className="text-sm font-black text-[#142B4A]">
+                <h3 className="text-sm font-black text-[#0A2947]">
                   Automated Validation Report for {singleForm.full_name}
                 </h3>
               </div>

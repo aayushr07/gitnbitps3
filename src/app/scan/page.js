@@ -49,7 +49,7 @@ function ScanContent() {
       inst: "Delhi Technological University",
       type: "valid",
       badge: "Regular Intake (Valid)",
-      color: "border-emerald-300 bg-emerald-50 text-emerald-800"
+      color: "border-[#D3D4C0] bg-[#F3E4C9]/60 text-[#0A2947]"
     },
     {
       id: "8412-9034-1187",
@@ -57,7 +57,7 @@ function ScanContent() {
       inst: "VJTI Mumbai",
       type: "valid",
       badge: "Supernumerary TFWS (100% Fee Waiver)",
-      color: "border-cyan-300 bg-cyan-50 text-cyan-800"
+      color: "border-[#D3D4C0] bg-[#FAF8F5] text-[#0A2947]"
     },
     {
       id: "6671-2299-4411",
@@ -65,7 +65,7 @@ function ScanContent() {
       inst: "COEP Pune",
       type: "valid",
       badge: "Foreign National (FN Valid)",
-      color: "border-blue-300 bg-blue-50 text-blue-800"
+      color: "border-[#D3D4C0] bg-[#FAF8F5] text-[#0A2947]"
     },
     {
       id: "9999-0000-1111",
@@ -137,27 +137,6 @@ function ScanContent() {
   const startCamera = async () => {
     setCameraError("");
     setCameraActive(true);
-
-    try {
-      const { Html5Qrcode } = await import("html5-qrcode");
-      const html5QrCode = new Html5Qrcode("reader");
-      html5QrCodeRef.current = html5QrCode;
-
-      const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-      await html5QrCode.start(
-        { facingMode: "environment" },
-        config,
-        (decodedText) => {
-          stopCamera();
-          setManualInput(decodedText);
-          performVerification(decodedText);
-        },
-        () => {}
-      );
-    } catch (err) {
-      setCameraError("Camera unavailable or permission denied. Use Manual Entry or 1-Click Profiles.");
-      setCameraActive(false);
-    }
   };
 
   const stopCamera = async () => {
@@ -171,17 +150,17 @@ function ScanContent() {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 text-[#0F172A] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="flex-1 bg-[#FAF8F5] text-[#0A2947] py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-7">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#D3D4C0] pb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-[#142B4A] text-xs font-semibold mb-2 border border-[#E2E8F0]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#142B4A]" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F3E4C9]/70 text-[#0A2947] text-xs font-bold mb-2 border border-[#D3D4C0]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#8B5E3C]" />
               <span>AICTE Authorized Stakeholder Verification Gateway</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-[#142B4A]">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#0A2947]">
               Authentic Student Identity Verification
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
@@ -190,12 +169,12 @@ function ScanContent() {
           </div>
 
           {/* Stakeholder Verifier Persona */}
-          <div className="bg-white border border-[#E2E8F0] p-2 rounded-2xl shadow-sm flex items-center gap-2">
+          <div className="bg-white border border-[#D3D4C0] p-2 rounded-2xl shadow-xs flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase text-slate-500 pl-2">Verifier Role:</span>
             <select
               value={selectedVerifier}
               onChange={(e) => setSelectedVerifier(e.target.value)}
-              className="bg-slate-50 border border-[#E2E8F0] rounded-xl px-2.5 py-1.5 text-xs font-bold text-[#142B4A] focus:outline-none focus:border-[#142B4A]"
+              className="bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl px-2.5 py-1.5 text-xs font-bold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
             >
               <option value="Tata Consultancy Services (HR Campus Hiring)">Tata Consultancy Services (TCS Employer)</option>
               <option value="Infosys Campus Verification Bureau">Infosys Campus Verification Bureau</option>
@@ -206,9 +185,9 @@ function ScanContent() {
         </div>
 
         {/* 1-Click Quick Demo Profiles for Evaluators */}
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+        <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
           <div className="text-xs font-bold text-slate-500 mb-2.5 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#142B4A]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#8B5E3C]" />
             <span>1-Click SIH Evaluator Test Profiles:</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -220,7 +199,7 @@ function ScanContent() {
                   setManualInput(p.id);
                   performVerification(p.id);
                 }}
-                className={`p-3 rounded-xl border text-left transition-all hover:scale-[1.02] ${p.color}`}
+                className={`p-3 rounded-xl border text-left transition-all hover:scale-[1.02] shadow-xs ${p.color}`}
               >
                 <div className="font-bold text-xs">{p.name}</div>
                 <div className="text-[10px] font-mono font-semibold">{p.id}</div>
@@ -237,14 +216,14 @@ function ScanContent() {
           <div className="lg:col-span-5 space-y-4">
             
             {/* Input Method Switcher */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-1.5 flex gap-1 shadow-sm">
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-1.5 flex gap-1 shadow-xs">
               <button
                 onClick={() => {
                   setActiveTab("manual");
                   stopCamera();
                 }}
                 className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                  activeTab === "manual" ? "bg-[#142B4A] text-white" : "text-slate-600 hover:text-[#0F172A]"
+                  activeTab === "manual" ? "bg-[#0A2947] text-[#F3E4C9] shadow-xs" : "text-slate-600 hover:text-[#0A2947]"
                 }`}
               >
                 <Search className="w-3.5 h-3.5" />
@@ -257,7 +236,7 @@ function ScanContent() {
                   startCamera();
                 }}
                 className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                  activeTab === "camera" ? "bg-[#142B4A] text-white" : "text-slate-600 hover:text-[#0F172A]"
+                  activeTab === "camera" ? "bg-[#0A2947] text-[#F3E4C9] shadow-xs" : "text-slate-600 hover:text-[#0A2947]"
                 }`}
               >
                 <Camera className="w-3.5 h-3.5" />
@@ -267,10 +246,10 @@ function ScanContent() {
 
             {/* Manual Entry Form */}
             {activeTab === "manual" && (
-              <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm space-y-4">
+              <div className="bg-white border border-[#D3D4C0] rounded-2xl p-5 shadow-xs space-y-4">
                 <form onSubmit={handleManualSubmit} className="space-y-3">
                   <div>
-                    <label className="block text-xs font-bold text-[#0F172A] mb-1">
+                    <label className="block text-xs font-bold text-[#0A2947] mb-1">
                       Enter 12-Digit APAAR ID or Student ID
                     </label>
                     <input
@@ -279,16 +258,16 @@ function ScanContent() {
                       value={manualInput}
                       onChange={(e) => setManualInput(e.target.value)}
                       placeholder="e.g. 9283-4710-8521 or DTU/2022/CSE/001"
-                      className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xl py-2.5 px-3 text-xs font-mono font-bold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                      className="w-full bg-[#FAF8F5] border border-[#D3D4C0] rounded-xl py-2.5 px-3 text-xs font-mono font-bold text-[#0A2947] focus:outline-none focus:border-[#8B5E3C]"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                    className="w-full py-2.5 rounded-xl bg-[#0A2947] hover:bg-[#8B5E3C] text-white font-bold text-xs shadow-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                   >
-                    <ShieldCheck className="w-4 h-4 text-[#22D3EE]" />
+                    <ShieldCheck className="w-4 h-4 text-[#F3E4C9]" />
                     <span>{loading ? "Authenticating Against AICTE..." : "Authenticate Student Record"}</span>
                   </button>
                 </form>
@@ -297,7 +276,7 @@ function ScanContent() {
 
             {/* Live Camera Scanner */}
             {activeTab === "camera" && (
-              <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm space-y-3 text-center">
+              <div className="bg-white border border-[#D3D4C0] rounded-2xl p-5 shadow-xs space-y-3 text-center">
                 <div id="reader" className="w-full rounded-xl overflow-hidden bg-slate-900 min-h-[260px] flex items-center justify-center text-white text-xs">
                   {!cameraActive && <p className="p-4 text-slate-400">Starting Camera Scanner...</p>}
                 </div>
@@ -307,7 +286,7 @@ function ScanContent() {
                 <button
                   type="button"
                   onClick={stopCamera}
-                  className="px-4 py-1.5 rounded-lg bg-slate-100 text-xs font-bold text-slate-700"
+                  className="px-4 py-1.5 rounded-lg bg-[#FAF8F5] text-xs font-bold text-[#0A2947] border border-[#D3D4C0]"
                 >
                   Stop Camera
                 </button>
@@ -315,16 +294,16 @@ function ScanContent() {
             )}
 
             {/* Recent Verification Queries */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="bg-white border border-[#D3D4C0] rounded-2xl p-4 shadow-xs">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5" />
+                <Clock className="w-3.5 h-3.5 text-[#8B5E3C]" />
                 <span>Recent Verification Audit Queries:</span>
               </h4>
               <div className="space-y-2">
                 {recentScans.slice(0, 3).map((v, i) => (
-                  <div key={i} className="p-2.5 rounded-xl bg-slate-50 border border-[#E2E8F0] text-[11px] flex items-center justify-between">
+                  <div key={i} className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0] text-[11px] flex items-center justify-between">
                     <div>
-                      <span className="font-bold text-[#0F172A] block">{v.student_name}</span>
+                      <span className="font-bold text-[#0A2947] block">{v.student_name}</span>
                       <span className="font-mono text-slate-400 text-[10px]">{v.apaar_id}</span>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
@@ -344,12 +323,12 @@ function ScanContent() {
           {/* Right Column: Verifiable Credential Result Display */}
           <div className="lg:col-span-7">
             {result ? (
-              <div className={`bg-white border-2 rounded-3xl p-6 sm:p-7 shadow-md space-y-5 ${
+              <div className={`bg-white border-2 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 ${
                 result.verified ? "border-emerald-500" : "border-rose-500"
               }`}>
                 
                 {/* Result Header & Digital Badge */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#D3D4C0] pb-4">
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold ${
                       result.verified ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"
@@ -366,7 +345,7 @@ function ScanContent() {
                       }`}>
                         {result.verified ? "AICTE Cryptographically Authenticated" : "Verification Anomaly Alert"}
                       </span>
-                      <h3 className="text-lg font-black text-[#0F172A]">
+                      <h3 className="text-lg font-black text-[#0A2947]">
                         {result.student?.full_name || "Unverified Record"}
                       </h3>
                     </div>
@@ -383,9 +362,9 @@ function ScanContent() {
 
                 {/* Cryptographic SHA-256 Seal Banner */}
                 {result.cryptographic_seal && (
-                  <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0] text-xs font-mono flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0] text-xs font-mono flex items-center justify-between">
                     <span className="text-[10px] text-slate-500 font-bold uppercase">Cryptographic Seal:</span>
-                    <span className="text-[10px] font-bold text-[#142B4A] truncate max-w-[280px]">
+                    <span className="text-[10px] font-bold text-[#0A2947] truncate max-w-[280px]">
                       {result.cryptographic_seal}
                     </span>
                   </div>
@@ -396,35 +375,35 @@ function ScanContent() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">APAAR ID</span>
-                        <span className="text-sm font-mono font-black text-[#142B4A] block mt-0.5">
+                        <span className="text-sm font-mono font-black text-[#0A2947] block mt-0.5">
                           {result.student.apaar_id}
                         </span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Student ID / Roll No</span>
-                        <span className="text-sm font-mono font-black text-[#0F172A] block mt-0.5">
+                        <span className="text-sm font-mono font-black text-[#0A2947] block mt-0.5">
                           {result.student.student_id || "NOT ASSIGNED"}
                         </span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Institution</span>
-                        <span className="font-bold text-[#0F172A] block mt-0.5">{result.student.institution}</span>
+                        <span className="font-bold text-[#0A2947] block mt-0.5">{result.student.institution}</span>
                         <span className="text-[10px] text-slate-400 font-mono">Code: {result.student.aicte_id}</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Program & Branch</span>
-                        <span className="font-bold text-[#0F172A] block mt-0.5">{result.student.program}</span>
+                        <span className="font-bold text-[#0A2947] block mt-0.5">{result.student.program}</span>
                         <span className="text-[10px] text-slate-500">Year: {result.student.admission_year}</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Intake Quota & Category</span>
-                        <span className="font-bold text-[#142B4A] block mt-0.5">
+                        <span className="font-bold text-[#0A2947] block mt-0.5">
                           {result.student.supernumerary_type === "TFWS" || result.student.admission_category === "TFWS" || result.student.tfws_eligible
                             ? "TFWS (Tuition Fee Waiver - 5% Quota)"
                             : result.student.supernumerary_type === "EWS" || result.student.admission_category === "EWS" || result.student.ews_eligible
@@ -439,7 +418,7 @@ function ScanContent() {
                         </span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
+                      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#D3D4C0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Academic Credits (ABC)</span>
                         <span className="font-bold text-emerald-700 block mt-0.5">
                           {result.student.abc_credits_total || 0} Credits (CGPA: {result.student.cgpa || "—"})
@@ -461,9 +440,9 @@ function ScanContent() {
                     <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
                       <Link
                         href={`/student/${encodeURIComponent(result.student.apaar_id)}`}
-                        className="px-5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-2 transition-all"
+                        className="px-5 py-2.5 rounded-xl bg-[#0A2947] hover:bg-[#8B5E3C] text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all"
                       >
-                        <Award className="w-4 h-4 text-[#22D3EE]" />
+                        <Award className="w-4 h-4 text-[#F3E4C9]" />
                         <span>View & Print Official Degree Certificate</span>
                       </Link>
 
@@ -475,11 +454,11 @@ function ScanContent() {
                 )}
               </div>
             ) : (
-              <div className="bg-white border border-[#E2E8F0] rounded-3xl p-12 text-center shadow-sm space-y-3">
-                <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
-                  <ShieldCheck className="w-8 h-8 text-[#142B4A]" />
+              <div className="bg-white border border-[#D3D4C0] rounded-3xl p-12 text-center shadow-xs space-y-3">
+                <div className="w-16 h-16 rounded-2xl bg-[#FAF8F5] border border-[#D3D4C0] flex items-center justify-center mx-auto text-slate-400">
+                  <ShieldCheck className="w-8 h-8 text-[#8B5E3C]" />
                 </div>
-                <h3 className="text-base font-bold text-[#0F172A]">
+                <h3 className="text-base font-bold text-[#0A2947]">
                   Awaiting Verification Query
                 </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">

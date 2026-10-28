@@ -9,10 +9,13 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          navy: "#142B4A",
-          dark: "#0F172A",
-          cyan: "#22D3EE",
-          border: "#E2E8F0",
+          navy: "#0A2947",
+          cream: "#F3E4C9",
+          sage: "#D3D4C0",
+          terracotta: "#8B5E3C",
+          dark: "#0A2947",
+          border: "#D3D4C0",
+          bg: "#FAF8F5",
         },
       },
     },

@@ -19,8 +19,6 @@ import {
   FileCheck2,
   FileSpreadsheet,
   Globe2,
-  Lock,
-  ExternalLink,
   Award,
   ChevronRight
 } from "lucide-react";
@@ -108,20 +106,20 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-slate-50 text-[#0F172A]">
+    <div className="flex-1 flex flex-col bg-[#FAF8F5] text-[#0A2947]">
       {/* Hero Section */}
-      <section className="py-12 lg:py-16 bg-white border-b border-[#E2E8F0]">
+      <section className="py-12 lg:py-16 bg-white border-b border-[#D3D4C0]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-[#E2E8F0] text-[#142B4A] text-xs font-semibold mb-5">
-            <span className="w-2 h-2 rounded-full bg-[#22D3EE] animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3E4C9]/70 border border-[#D3D4C0] text-[#0A2947] text-xs font-bold mb-5 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-[#8B5E3C] animate-pulse" />
             <span>AICTE National Academic Identity Initiative • One Nation, One Student ID</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[#142B4A] mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0A2947] mb-4 leading-tight">
             Integrated APAAR Student Data <br />
-            <span className="text-[#0F172A]">Management & Verification Platform</span>
+            <span className="text-[#8B5E3C]">Management & Verification Platform</span>
           </h1>
 
           <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 mb-8 leading-relaxed">
@@ -132,23 +130,23 @@ export default function HomePage() {
 
           {/* Quick Search Box */}
           <div className="max-w-xl mx-auto mb-6">
-            <form onSubmit={handleQuickSearch} className="relative flex items-center shadow-sm">
+            <form onSubmit={handleQuickSearch} className="relative flex items-center shadow-xs">
               <div className="absolute left-4 text-slate-400">
-                <Search className="w-5 h-5 text-[#142B4A]" />
+                <Search className="w-5 h-5 text-[#0A2947]" />
               </div>
               <input
                 type="text"
                 value={quickInput}
                 onChange={(e) => setQuickInput(e.target.value)}
                 placeholder="Enter 12-digit APAAR ID or Student ID (e.g. 9283-4710-8521)..."
-                className="w-full bg-slate-50 border-2 border-[#E2E8F0] focus:border-[#142B4A] rounded-2xl py-3.5 pl-12 pr-28 text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none transition-all"
+                className="w-full bg-[#FAF8F5] border-2 border-[#D3D4C0] focus:border-[#8B5E3C] rounded-2xl py-3.5 pl-12 pr-28 text-xs sm:text-sm text-[#0A2947] placeholder-slate-400 focus:outline-none transition-all"
               />
               <button
                 type="submit"
-                className="absolute right-2 px-4 py-2 bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-sm"
+                className="absolute right-2 px-4 py-2 bg-[#0A2947] hover:bg-[#8B5E3C] text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-xs"
               >
                 <span>Verify</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#22D3EE]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#F3E4C9]" />
               </button>
             </form>
 
@@ -158,31 +156,31 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => router.push("/scan?apaar=9283-4710-8521")}
-                className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition-colors flex items-center gap-1 font-semibold text-[11px]"
+                className="px-2.5 py-1 rounded-lg bg-[#F3E4C9]/60 border border-[#D3D4C0] text-[#0A2947] hover:bg-[#F3E4C9] transition-colors flex items-center gap-1 font-bold text-[11px]"
               >
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <CheckCircle2 className="w-3 h-3 text-[#8B5E3C]" />
                 <span>Aarav (Regular Merit)</span>
               </button>
               <button
                 type="button"
                 onClick={() => router.push("/scan?apaar=8412-9034-1187")}
-                className="px-2.5 py-1 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-800 hover:bg-cyan-100 transition-colors flex items-center gap-1 font-semibold text-[11px]"
+                className="px-2.5 py-1 rounded-lg bg-[#FAF8F5] border border-[#D3D4C0] text-[#0A2947] hover:bg-[#F3E4C9]/60 transition-colors flex items-center gap-1 font-bold text-[11px]"
               >
-                <CheckCircle2 className="w-3 h-3 text-cyan-600" />
+                <CheckCircle2 className="w-3 h-3 text-[#8B5E3C]" />
                 <span>Priya (Supernumerary TFW)</span>
               </button>
               <button
                 type="button"
                 onClick={() => router.push("/scan?apaar=6671-2299-4411")}
-                className="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100 transition-colors flex items-center gap-1 font-semibold text-[11px]"
+                className="px-2.5 py-1 rounded-lg bg-[#FAF8F5] border border-[#D3D4C0] text-[#0A2947] hover:bg-[#F3E4C9]/60 transition-colors flex items-center gap-1 font-bold text-[11px]"
               >
-                <Globe2 className="w-3 h-3 text-blue-600" />
+                <Globe2 className="w-3 h-3 text-[#0A2947]" />
                 <span>Aiman (Foreign National)</span>
               </button>
               <button
                 type="button"
                 onClick={() => router.push("/scan?apaar=9999-0000-1111")}
-                className="px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 hover:bg-rose-100 transition-colors flex items-center gap-1 font-semibold text-[11px]"
+                className="px-2.5 py-1 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 hover:bg-rose-100 transition-colors flex items-center gap-1 font-bold text-[11px]"
               >
                 <AlertTriangle className="w-3 h-3 text-rose-600" />
                 <span>Vikram (Excess & Dual Flag)</span>
@@ -194,23 +192,23 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link
               href="/institution"
-              className="px-5 py-2.5 rounded-xl bg-[#142B4A] hover:bg-[#0F172A] text-white font-bold text-xs shadow-sm flex items-center gap-2 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-[#0A2947] hover:bg-[#8B5E3C] text-white font-bold text-xs shadow-xs flex items-center gap-2 transition-all"
             >
-              <UploadCloud className="w-4 h-4 text-[#22D3EE]" />
+              <UploadCloud className="w-4 h-4 text-[#F3E4C9]" />
               <span>Institution Portal & Upload</span>
             </Link>
             <Link
               href="/students"
-              className="px-5 py-2.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#142B4A] font-bold text-xs shadow-sm flex items-center gap-2 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-white border border-[#D3D4C0] hover:border-[#8B5E3C] text-[#0A2947] font-bold text-xs shadow-xs flex items-center gap-2 transition-all"
             >
-              <Users className="w-4 h-4 text-[#142B4A]" />
+              <Users className="w-4 h-4 text-[#0A2947]" />
               <span>AICTE Central Repository</span>
             </Link>
             <Link
               href="/analytics"
-              className="px-5 py-2.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#142B4A] text-[#142B4A] font-bold text-xs shadow-sm flex items-center gap-2 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-white border border-[#D3D4C0] hover:border-[#8B5E3C] text-[#0A2947] font-bold text-xs shadow-xs flex items-center gap-2 transition-all"
             >
-              <BarChart3 className="w-4 h-4 text-emerald-600" />
+              <BarChart3 className="w-4 h-4 text-[#8B5E3C]" />
               <span>Admission Monitoring & Alerts</span>
             </Link>
           </div>
@@ -218,41 +216,41 @@ export default function HomePage() {
       </section>
 
       {/* Real-Time AICTE National Metrics Bar */}
-      <section className="bg-slate-100/80 border-b border-[#E2E8F0] py-6">
+      <section className="bg-[#F3E4C9]/30 border-b border-[#D3D4C0] py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             
-            <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-[#D3D4C0] shadow-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Total Students</span>
-              <span className="text-xl font-black text-[#142B4A]">{stats.total_students || 19}</span>
-              <span className="text-[10px] text-emerald-600 font-semibold block mt-0.5">APAAR Linked</span>
+              <span className="text-xl font-black text-[#0A2947]">{stats.total_students || 19}</span>
+              <span className="text-[10px] text-[#8B5E3C] font-semibold block mt-0.5">APAAR Linked</span>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-[#D3D4C0] shadow-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Approved Intake</span>
-              <span className="text-xl font-black text-[#142B4A]">{stats.total_approved_intake?.toLocaleString() || "840"}</span>
+              <span className="text-xl font-black text-[#0A2947]">{stats.total_approved_intake?.toLocaleString() || "840"}</span>
               <span className="text-[10px] text-slate-500 font-semibold block mt-0.5">Sanctioned Seats (60/dept)</span>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-[#D3D4C0] shadow-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Actual Enrolment</span>
-              <span className="text-xl font-black text-blue-700">{stats.total_actual_enrolment?.toLocaleString() || "815"}</span>
-              <span className="text-[10px] text-blue-600 font-semibold block mt-0.5">{stats.intake_utilization_rate || 97.0}% Utilized</span>
+              <span className="text-xl font-black text-[#0A2947]">{stats.total_actual_enrolment?.toLocaleString() || "815"}</span>
+              <span className="text-[10px] text-[#8B5E3C] font-semibold block mt-0.5">{stats.intake_utilization_rate || 97.0}% Utilized</span>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-[#D3D4C0] shadow-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Supernumerary</span>
-              <span className="text-xl font-black text-cyan-700">{stats.supernumerary_count || 3}</span>
-              <span className="text-[10px] text-cyan-600 font-semibold block mt-0.5">TFW, EWS, Sports</span>
+              <span className="text-xl font-black text-[#8B5E3C]">{stats.supernumerary_count || 3}</span>
+              <span className="text-[10px] text-[#8B5E3C] font-semibold block mt-0.5">TFW, EWS, Sports</span>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-[#D3D4C0] shadow-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">International / NRI</span>
-              <span className="text-xl font-black text-purple-700">{(stats.nri_count || 1) + (stats.fn_count || 1) + (stats.oci_count || 1)}</span>
-              <span className="text-[10px] text-purple-600 font-semibold block mt-0.5">NRI / OCI / FN</span>
+              <span className="text-xl font-black text-[#0A2947]">{(stats.nri_count || 1) + (stats.fn_count || 1) + (stats.oci_count || 1)}</span>
+              <span className="text-[10px] text-slate-500 font-semibold block mt-0.5">NRI / OCI / FN</span>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-rose-200 bg-rose-50/40 shadow-sm">
+            <div className="bg-white p-3.5 rounded-xl border border-rose-200 bg-rose-50/40 shadow-xs">
               <span className="text-[10px] font-bold uppercase text-rose-600 block">Excess Violations</span>
               <span className="text-xl font-black text-rose-700">{stats.excess_intake_violations || 1}</span>
               <span className="text-[10px] text-rose-600 font-semibold block mt-0.5">Over-Admit Flags</span>
@@ -265,11 +263,11 @@ export default function HomePage() {
       {/* End-to-End Expected Solution Flow (Interactive Architecture) */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-[#142B4A] text-xs font-bold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#22D3EE]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F3E4C9] border border-[#D3D4C0] text-[#8B5E3C] text-xs font-bold mb-2 shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#8B5E3C]" />
             <span>End-to-End System Workflow</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#142B4A]">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0A2947]">
             AICTE Student Data Management Architecture
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto mt-1">
@@ -285,18 +283,18 @@ export default function HomePage() {
               <Link
                 key={step.num}
                 href={step.href}
-                className="group bg-white border border-[#E2E8F0] hover:border-[#142B4A] rounded-2xl p-6 transition-all hover:shadow-md flex flex-col justify-between"
+                className="group bg-white border border-[#D3D4C0] hover:border-[#8B5E3C] rounded-2xl p-6 transition-all hover:shadow-sm flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-black text-[#22D3EE] bg-[#142B4A] px-2.5 py-1 rounded-lg">
+                    <span className="text-xs font-black text-[#F3E4C9] bg-[#0A2947] px-2.5 py-1 rounded-lg">
                       STAGE {step.num}
                     </span>
-                    <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-cyan-50 flex items-center justify-center transition-colors">
-                      <Icon className="w-5 h-5 text-[#142B4A] group-hover:text-[#22D3EE]" />
+                    <div className="w-9 h-9 rounded-xl bg-[#FAF8F5] group-hover:bg-[#F3E4C9]/60 flex items-center justify-center transition-colors">
+                      <Icon className="w-5 h-5 text-[#0A2947] group-hover:text-[#8B5E3C]" />
                     </div>
                   </div>
-                  <h3 className="text-base font-bold text-[#0F172A] group-hover:text-[#142B4A] transition-colors mb-1.5">
+                  <h3 className="text-base font-bold text-[#0A2947] group-hover:text-[#8B5E3C] transition-colors mb-1.5">
                     {step.title}
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
@@ -304,9 +302,9 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#142B4A]">
+                <div className="pt-4 mt-4 border-t border-[#D3D4C0]/50 flex items-center justify-between text-xs font-bold text-[#0A2947]">
                   <span>Explore Stage</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 group-hover:text-[#8B5E3C] transition-transform" />
                 </div>
               </Link>
             );
@@ -315,10 +313,10 @@ export default function HomePage() {
       </section>
 
       {/* Key Requirements Highlights */}
-      <section className="bg-white border-t border-[#E2E8F0] py-12 px-4 sm:px-6 lg:px-8">
+      <section className="bg-white border-t border-[#D3D4C0] py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-xl sm:text-2xl font-black text-[#142B4A]">
+            <h2 className="text-xl sm:text-2xl font-black text-[#0A2947]">
               Platform Capabilities Aligned with AICTE Norms
             </h2>
             <p className="text-xs text-slate-500 mt-1">
@@ -327,33 +325,33 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-5 rounded-2xl bg-slate-50 border border-[#E2E8F0]">
-              <div className="w-8 h-8 rounded-lg bg-[#142B4A] text-[#22D3EE] flex items-center justify-center mb-3">
-                <FileSpreadsheet className="w-4 h-4 text-[#22D3EE]" />
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#D3D4C0]">
+              <div className="w-8 h-8 rounded-lg bg-[#0A2947] text-[#F3E4C9] flex items-center justify-center mb-3">
+                <FileSpreadsheet className="w-4 h-4 text-[#F3E4C9]" />
               </div>
-              <h3 className="text-sm font-bold text-[#0F172A] mb-1">Standardized Data Schema</h3>
+              <h3 className="text-sm font-bold text-[#0A2947] mb-1">Standardized Data Schema</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Mandatory data fields for Approved Intake, Actual Enrolment, Supernumerary Seats (TFW, EWS, Sports), 
                 NRI Category, OCI Status, and Foreign National (FN) details linked with APAAR ID.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-[#E2E8F0]">
-              <div className="w-8 h-8 rounded-lg bg-[#142B4A] text-[#22D3EE] flex items-center justify-center mb-3">
-                <ShieldCheck className="w-4 h-4 text-[#22D3EE]" />
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#D3D4C0]">
+              <div className="w-8 h-8 rounded-lg bg-[#0A2947] text-[#F3E4C9] flex items-center justify-center mb-3">
+                <ShieldCheck className="w-4 h-4 text-[#F3E4C9]" />
               </div>
-              <h3 className="text-sm font-bold text-[#0F172A] mb-1">Automated Validation Engine</h3>
+              <h3 className="text-sm font-bold text-[#0A2947] mb-1">Automated Validation Engine</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Real-time anomaly sentinel identifying duplicate student records, invalid APAAR IDs, 
                 admissions exceeding approved intake, and cross-institutional dual-enrolment fraud.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-[#E2E8F0]">
-              <div className="w-8 h-8 rounded-lg bg-[#142B4A] text-[#22D3EE] flex items-center justify-center mb-3">
-                <Award className="w-4 h-4 text-[#22D3EE]" />
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#D3D4C0]">
+              <div className="w-8 h-8 rounded-lg bg-[#0A2947] text-[#F3E4C9] flex items-center justify-center mb-3">
+                <Award className="w-4 h-4 text-[#F3E4C9]" />
               </div>
-              <h3 className="text-sm font-bold text-[#0F172A] mb-1">Verifiable Academic Records</h3>
+              <h3 className="text-sm font-bold text-[#0A2947] mb-1">Verifiable Academic Records</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Tamper-proof verifiable records and degree certificates with prominent display of APAAR ID 
                 along with Institutional Student ID and cryptographic QR verification.
@@ -362,23 +360,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="mt-auto bg-[#0F172A] text-slate-400 py-6 text-xs border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-white">AICTE APAAR Platform</span>
-            <span>• Ministry of Education • Government of India</span>
-          </div>
-          <div className="flex items-center gap-4 text-[11px]">
-            <Link href="/institution" className="hover:text-white transition-colors">Institution Portal</Link>
-            <Link href="/students" className="hover:text-white transition-colors">Central Repository</Link>
-            <Link href="/analytics" className="hover:text-white transition-colors">Intake Monitoring</Link>
-            <Link href="/scan" className="hover:text-white transition-colors">Stakeholder Scanner</Link>
-            <Link href="/integration" className="hover:text-white transition-colors">ERP API</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
