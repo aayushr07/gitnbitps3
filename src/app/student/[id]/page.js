@@ -238,13 +238,17 @@ export default function StudentPassportPage() {
               <div className="text-[11px] text-slate-500 font-medium">
                 Admitted under Sanctioned Intake:{" "}
                 <strong className="text-[#142B4A]">
-                  {student.supernumerary_seat
+                  {student.supernumerary_type === "TFWS" || student.admission_category === "TFWS" || student.tfws_eligible
+                    ? "Tuition Fee Waiver Scheme (TFWS - 100% Tuition Fee Waived)"
+                    : student.supernumerary_type === "EWS" || student.admission_category === "EWS" || student.ews_eligible
+                    ? "Economically Weaker Section (EWS - 10% Supernumerary Quota)"
+                    : student.supernumerary_seat
                     ? `Supernumerary Quota (${student.supernumerary_type})`
                     : student.nri_category && student.nri_category !== "Not Applicable"
                     ? `NRI Category (${student.nri_category})`
                     : student.foreign_national_status
                     ? `Foreign National Quota (${student.passport_country})`
-                    : "Regular Sanctioned Merit Intake"}
+                    : "Regular Sanctioned Merit Intake (60 Seats Cutoff)"}
                 </strong>
                 {" • "}Academic Year: {student.admission_year}
               </div>
@@ -332,6 +336,19 @@ export default function StudentPassportPage() {
                   </div>
                   <div className="text-[11px] text-slate-600 font-semibold">{student.institution}</div>
                   <div className="text-[10px] text-slate-500">{student.program}</div>
+                  <div className="pt-0.5">
+                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-[#142B4A] border border-slate-200">
+                      {student.supernumerary_type === "TFWS" || student.admission_category === "TFWS" || student.tfws_eligible
+                        ? "TFWS (100% Tuition Fee Waiver)"
+                        : student.supernumerary_type === "EWS" || student.admission_category === "EWS" || student.ews_eligible
+                        ? "EWS (10% Supernumerary Quota)"
+                        : student.supernumerary_seat
+                        ? `Supernumerary: ${student.supernumerary_type}`
+                        : student.nri_category && student.nri_category !== "Not Applicable"
+                        ? `NRI: ${student.nri_category}`
+                        : "Regular Merit (60 Seats Cutoff)"}
+                    </span>
+                  </div>
                 </div>
               </div>
 

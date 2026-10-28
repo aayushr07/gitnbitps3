@@ -55,7 +55,7 @@ function ScanContent() {
       name: "Priya Patel",
       inst: "VJTI Mumbai",
       type: "valid",
-      badge: "Supernumerary TFW (Valid)",
+      badge: "Supernumerary TFWS (100% Fee Waiver)",
       color: "border-cyan-300 bg-cyan-50 text-cyan-800"
     },
     {
@@ -424,13 +424,17 @@ function ScanContent() {
                       <div className="p-3 rounded-xl bg-slate-50 border border-[#E2E8F0]">
                         <span className="text-[10px] text-slate-400 font-bold uppercase block">Intake Quota & Category</span>
                         <span className="font-bold text-[#142B4A] block mt-0.5">
-                          {result.student.supernumerary_seat
+                          {result.student.supernumerary_type === "TFWS" || result.student.admission_category === "TFWS" || result.student.tfws_eligible
+                            ? "TFWS (Tuition Fee Waiver - 5% Quota)"
+                            : result.student.supernumerary_type === "EWS" || result.student.admission_category === "EWS" || result.student.ews_eligible
+                            ? "EWS (Economically Weaker Section - 10% Quota)"
+                            : result.student.supernumerary_seat
                             ? `Supernumerary: ${result.student.supernumerary_type}`
                             : result.student.nri_category && result.student.nri_category !== "Not Applicable"
                             ? `NRI: ${result.student.nri_category}`
                             : result.student.foreign_national_status
                             ? `FN (${result.student.passport_country})`
-                            : "Regular Sanctioned Intake"}
+                            : "Regular Sanctioned Intake (60 Cutoff)"}
                         </span>
                       </div>
 

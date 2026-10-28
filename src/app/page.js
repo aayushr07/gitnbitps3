@@ -28,18 +28,20 @@ export default function HomePage() {
   const router = useRouter();
   const [quickInput, setQuickInput] = useState("");
   const [stats, setStats] = useState({
-    total_students: 7,
-    verified_count: 6,
+    total_students: 8,
+    verified_count: 7,
     flagged_fraud_count: 1,
-    total_approved_intake: 2760,
-    total_actual_enrolment: 2754,
-    intake_utilization_rate: 99.8,
+    total_approved_intake: 840,
+    total_actual_enrolment: 818,
+    intake_utilization_rate: 97.4,
+    tfws_count: 1,
+    ews_count: 1,
     supernumerary_count: 3,
     nri_count: 1,
     oci_count: 1,
     fn_count: 1,
     excess_intake_violations: 1,
-    compliance_rate: 98.4,
+    compliance_rate: 87.5,
   });
 
   useEffect(() => {
@@ -227,14 +229,14 @@ export default function HomePage() {
 
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Approved Intake</span>
-              <span className="text-xl font-black text-[#142B4A]">{stats.total_approved_intake?.toLocaleString() || "2,760"}</span>
-              <span className="text-[10px] text-slate-500 font-semibold block mt-0.5">Sanctioned Seats</span>
+              <span className="text-xl font-black text-[#142B4A]">{stats.total_approved_intake?.toLocaleString() || "840"}</span>
+              <span className="text-[10px] text-slate-500 font-semibold block mt-0.5">Sanctioned Seats (60/dept)</span>
             </div>
 
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">
               <span className="text-[10px] font-bold uppercase text-slate-500 block">Actual Enrolment</span>
-              <span className="text-xl font-black text-blue-700">{stats.total_actual_enrolment?.toLocaleString() || "2,754"}</span>
-              <span className="text-[10px] text-blue-600 font-semibold block mt-0.5">{stats.intake_utilization_rate || 99.8}% Utilized</span>
+              <span className="text-xl font-black text-blue-700">{stats.total_actual_enrolment?.toLocaleString() || "818"}</span>
+              <span className="text-[10px] text-blue-600 font-semibold block mt-0.5">{stats.intake_utilization_rate || 97.4}% Utilized</span>
             </div>
 
             <div className="bg-white p-3.5 rounded-xl border border-[#E2E8F0] shadow-sm">

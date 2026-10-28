@@ -116,58 +116,71 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Top Metric Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center justify-between text-slate-500 text-xs mb-2">
-              <span className="font-bold uppercase tracking-wider">Sanctioned Intake Capacity</span>
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">Sanctioned Intake</span>
               <Users className="w-4 h-4 text-[#142B4A]" />
             </div>
-            <div className="text-3xl font-black text-[#142B4A]">
-              {data?.total_approved_intake?.toLocaleString() || "2,760"}
+            <div className="text-2xl font-black text-[#142B4A]">
+              {data?.total_approved_intake?.toLocaleString() || "840"}
             </div>
-            <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1 font-semibold">
-              <span>{institutions.length} AICTE Approved Institutions</span>
+            <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-1 font-semibold">
+              <span>{institutions.length} Institutions (60 cutoff/dept)</span>
             </div>
           </div>
 
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center justify-between text-slate-500 text-xs mb-2">
-              <span className="font-bold uppercase tracking-wider">Total Enrolled Students</span>
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">Total Enrolled</span>
               <CheckCircle2 className="w-4 h-4 text-blue-600" />
             </div>
-            <div className="text-3xl font-black text-blue-700">
-              {data?.total_actual_enrolment?.toLocaleString() || "2,754"}
+            <div className="text-2xl font-black text-blue-700">
+              {data?.total_actual_enrolment?.toLocaleString() || "818"}
             </div>
-            <div className="text-[11px] text-blue-600 font-bold mt-1">
-              {data?.intake_utilization_rate || 99.8}% Intake Capacity Filled
+            <div className="text-[10px] text-blue-600 font-bold mt-1">
+              {data?.intake_utilization_rate || 97.4}% Capacity Filled
             </div>
           </div>
 
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center justify-between text-slate-500 text-xs mb-2">
-              <span className="font-bold uppercase tracking-wider">Supernumerary & NRI/FN</span>
-              <Award className="w-4 h-4 text-purple-600" />
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">TFWS Quota (5%)</span>
+              <Sparkles className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-3xl font-black text-purple-700">
-              {(data?.supernumerary_count || 3) + (data?.nri_count || 1) + (data?.fn_count || 1)}
+            <div className="text-2xl font-black text-emerald-700">
+              {data?.tfws_enrolled_total || 37} <span className="text-xs text-slate-500 font-semibold">/ {data?.tfws_quota_total || 42}</span>
             </div>
-            <div className="text-[11px] text-slate-500 mt-1 font-medium">
-              {data?.supernumerary_count || 3} TFW/EWS • {(data?.nri_count || 1) + (data?.fn_count || 1)} International
+            <div className="text-[10px] text-slate-500 mt-1 font-medium">
+              3 seats per 60-seat department
+            </div>
+          </div>
+
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">EWS Quota (10%)</span>
+              <Sparkles className="w-4 h-4 text-amber-600" />
+            </div>
+            <div className="text-2xl font-black text-amber-700">
+              {data?.ews_enrolled_total || 75} <span className="text-xs text-slate-500 font-semibold">/ {data?.ews_quota_total || 84}</span>
+            </div>
+            <div className="text-[10px] text-slate-500 mt-1 font-medium">
+              6 seats per 60-seat department
             </div>
           </div>
 
           {/* Excess Intake Violations Sentinel */}
-          <div className="bg-white border border-rose-300 rounded-2xl p-5 shadow-sm bg-rose-50/30">
-            <div className="flex items-center justify-between text-rose-800 text-xs mb-2">
-              <span className="font-bold uppercase tracking-wider">Excess Intake Anomaly</span>
+          <div className="bg-white border border-rose-300 rounded-2xl p-4 shadow-sm bg-rose-50/30">
+            <div className="flex items-center justify-between text-rose-800 text-xs mb-1">
+              <span className="font-bold uppercase tracking-wider text-[10px]">Intake Anomaly</span>
               <AlertTriangle className="w-4 h-4 text-rose-600" />
             </div>
-            <div className="text-3xl font-black text-rose-700">
+            <div className="text-2xl font-black text-rose-700">
               {data?.excess_intake_violations || 1}
             </div>
-            <div className="text-[11px] text-rose-700 font-bold mt-1">
-              Over-Admission Violation Detected
+            <div className="text-[10px] text-rose-700 font-bold mt-1">
+              Over-Admission Flagged (Apex +8)
             </div>
           </div>
 
@@ -277,16 +290,18 @@ export default function AnalyticsPage() {
                     <th className="p-3 font-bold">State</th>
                     {activeReportTab === "INTAKE" ? (
                       <>
-                        <th className="p-3 font-bold">Approved Intake</th>
+                        <th className="p-3 font-bold">Approved Intake (60/dept)</th>
                         <th className="p-3 font-bold">Actual Enrolment</th>
                         <th className="p-3 font-bold">Vacancy / Excess</th>
                         <th className="p-3 font-bold">Compliance Status</th>
                       </>
                     ) : (
                       <>
-                        <th className="p-3 font-bold">Supernumerary (Enr/Cap)</th>
-                        <th className="p-3 font-bold">NRI Enrolled</th>
-                        <th className="p-3 font-bold">Foreign National Enrolled</th>
+                        <th className="p-3 font-bold">TFWS (Enr/Appr)</th>
+                        <th className="p-3 font-bold">EWS (Enr/Appr)</th>
+                        <th className="p-3 font-bold">Supernumerary Total</th>
+                        <th className="p-3 font-bold">NRI (5%)</th>
+                        <th className="p-3 font-bold">FN (15%)</th>
                         <th className="p-3 font-bold">Compliance Score</th>
                       </>
                     )}
@@ -326,6 +341,12 @@ export default function AnalyticsPage() {
                           </>
                         ) : (
                           <>
+                            <td className="p-3 font-semibold text-emerald-800">
+                              {row.tfws_enrolled || 0} / {row.tfws_approved || 0}
+                            </td>
+                            <td className="p-3 font-semibold text-amber-800">
+                              {row.ews_enrolled || 0} / {row.ews_approved || 0}
+                            </td>
                             <td className="p-3 font-semibold text-slate-700">
                               {row.supernumerary_enrolled} / {row.supernumerary_quota}
                             </td>

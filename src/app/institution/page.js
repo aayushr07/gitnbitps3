@@ -46,13 +46,17 @@ export default function InstitutionPortalPage() {
     branch: "CSE",
     admission_year: 2024,
     supernumerary_seat: true,
-    supernumerary_type: "TFW",
+    supernumerary_type: "TFWS",
+    tfws_eligible: true,
+    family_annual_income: "₹3,80,000 / annum",
+    ews_eligible: false,
+    ews_certificate_no: "",
     nri_category: "Not Applicable",
     oci_status: false,
     oci_number: "",
     foreign_national_status: false,
     passport_country: "India",
-    admission_category: "Supernumerary - TFW",
+    admission_category: "TFWS",
     admission_date: "2024-08-11",
     student_consent: true,
   });
@@ -260,27 +264,27 @@ export default function InstitutionPortalPage() {
 
         {/* Institution Intake Capacity & Quota Summary Cards */}
         {currentInstitution && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
             
             {/* Approved Intake vs Actual */}
-            <div className={`bg-white border rounded-2xl p-5 shadow-sm ${
+            <div className={`bg-white border rounded-2xl p-4 shadow-sm ${
               currentInstitution.actual_enrolment > currentInstitution.approved_intake 
                 ? "border-rose-300 bg-rose-50/20" 
                 : "border-[#E2E8F0]"
             }`}>
-              <div className="flex items-center justify-between text-slate-500 text-xs mb-1.5">
-                <span className="font-bold uppercase tracking-wider">Sanctioned Intake</span>
+              <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+                <span className="font-bold uppercase tracking-wider text-[10px]">Sanctioned Intake</span>
                 <Users className="w-4 h-4 text-[#142B4A]" />
               </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-[#142B4A]">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black text-[#142B4A]">
                   {currentInstitution.actual_enrolment}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">
+                <span className="text-[11px] text-slate-500 font-semibold">
                   / {currentInstitution.approved_intake} seats
                 </span>
               </div>
-              <div className="mt-2 w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all ${
                     currentInstitution.actual_enrolment > currentInstitution.approved_intake
@@ -292,71 +296,122 @@ export default function InstitutionPortalPage() {
                   }}
                 />
               </div>
-              <span className={`text-[11px] font-semibold mt-2 block ${
+              <span className={`text-[10px] font-semibold mt-1.5 block ${
                 currentInstitution.actual_enrolment > currentInstitution.approved_intake
                   ? "text-rose-600 font-bold"
                   : "text-slate-500"
               }`}>
                 {currentInstitution.actual_enrolment > currentInstitution.approved_intake
-                  ? `⚠️ Intake Exceeded by +${currentInstitution.actual_enrolment - currentInstitution.approved_intake} Students!`
-                  : `${currentInstitution.approved_intake - currentInstitution.actual_enrolment} regular seats available`}
+                  ? `⚠️ +${currentInstitution.actual_enrolment - currentInstitution.approved_intake} Over Cutoff!`
+                  : `Cutoff: 60/dept (${currentInstitution.approved_intake - currentInstitution.actual_enrolment} open)`}
               </span>
             </div>
 
-            {/* Supernumerary Seats Quota */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 text-xs mb-1.5">
-                <span className="font-bold uppercase tracking-wider">Supernumerary Seats</span>
+            {/* TFWS Quota (5% = 3 Seats / Dept) */}
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+                <span className="font-bold uppercase tracking-wider text-[10px]">TFWS Quota (5%)</span>
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black text-emerald-700">
+                  {currentInstitution.actual_tfws || 0}
+                </span>
+                <span className="text-[11px] text-slate-500 font-semibold">
+                  / {currentInstitution.tfws_quota || (currentInstitution.programs?.length * 3) || 12}
+                </span>
+              </div>
+              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-emerald-500"
+                  style={{
+                    width: `${Math.min(100, ((currentInstitution.actual_tfws || 0) / (currentInstitution.tfws_quota || 1)) * 100)}%`,
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 mt-1.5 block">
+                Tuition Fee Waiver (3 seats/dept)
+              </span>
+            </div>
+
+            {/* EWS Quota (10% = 6 Seats / Dept) */}
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+                <span className="font-bold uppercase tracking-wider text-[10px]">EWS Quota (10%)</span>
+                <Sparkles className="w-4 h-4 text-amber-600" />
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black text-amber-700">
+                  {currentInstitution.actual_ews || 0}
+                </span>
+                <span className="text-[11px] text-slate-500 font-semibold">
+                  / {currentInstitution.ews_quota || (currentInstitution.programs?.length * 6) || 24}
+                </span>
+              </div>
+              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-amber-500"
+                  style={{
+                    width: `${Math.min(100, ((currentInstitution.actual_ews || 0) / (currentInstitution.ews_quota || 1)) * 100)}%`,
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 mt-1.5 block">
+                EWS supernumerary (6 seats/dept)
+              </span>
+            </div>
+
+            {/* Total Supernumerary Seats Quota */}
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+                <span className="font-bold uppercase tracking-wider text-[10px]">Supernumerary</span>
                 <Sparkles className="w-4 h-4 text-cyan-600" />
               </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-cyan-700">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black text-cyan-700">
                   {currentInstitution.actual_supernumerary || 0}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">
-                  / {currentInstitution.supernumerary_quota || 0} quota
+                <span className="text-[11px] text-slate-500 font-semibold">
+                  / {currentInstitution.supernumerary_quota || 0}
                 </span>
               </div>
-              <span className="text-[11px] text-slate-500 mt-2 block">
-                Tuition Fee Waiver (TFW), EWS, Sports, PMSSS
+              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-cyan-500"
+                  style={{
+                    width: `${Math.min(100, ((currentInstitution.actual_supernumerary || 0) / (currentInstitution.supernumerary_quota || 1)) * 100)}%`,
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 mt-1.5 block">
+                TFWS + EWS + PMSSS/Sports
               </span>
             </div>
 
-            {/* NRI Quota */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 text-xs mb-1.5">
-                <span className="font-bold uppercase tracking-wider">NRI Category</span>
+            {/* NRI / FN Quota */}
+            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-sm">
+              <div className="flex items-center justify-between text-slate-500 text-xs mb-1">
+                <span className="font-bold uppercase tracking-wider text-[10px]">NRI & Foreign (FN)</span>
                 <Globe2 className="w-4 h-4 text-purple-600" />
               </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-purple-700">
-                  {currentInstitution.actual_nri || 0}
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black text-purple-700">
+                  {(currentInstitution.actual_nri || 0) + (currentInstitution.actual_fn || 0)}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">
-                  / {currentInstitution.nri_quota || 0} approved
-                </span>
-              </div>
-              <span className="text-[11px] text-slate-500 mt-2 block">
-                Sanctioned 5% NRI / NRI-Sponsored seats
-              </span>
-            </div>
-
-            {/* Foreign National (FN) Quota */}
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-slate-500 text-xs mb-1.5">
-                <span className="font-bold uppercase tracking-wider">Foreign Nationals (FN)</span>
-                <Globe2 className="w-4 h-4 text-blue-600" />
-              </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-blue-700">
-                  {currentInstitution.actual_fn || 0}
-                </span>
-                <span className="text-xs text-slate-500 font-semibold">
-                  / {currentInstitution.fn_quota || 0} approved
+                <span className="text-[11px] text-slate-500 font-semibold">
+                  / {(currentInstitution.nri_quota || 0) + (currentInstitution.fn_quota || 0)}
                 </span>
               </div>
-              <span className="text-[11px] text-slate-500 mt-2 block">
-                ICCR & 15% Supernumerary FN / OCI
+              <div className="mt-2 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-purple-500"
+                  style={{
+                    width: `${Math.min(100, (((currentInstitution.actual_nri || 0) + (currentInstitution.actual_fn || 0)) / Math.max(1, (currentInstitution.nri_quota || 0) + (currentInstitution.fn_quota || 0))) * 100)}%`,
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-slate-500 mt-1.5 block">
+                5% NRI ({currentInstitution.actual_nri || 0}) • 15% FN ({currentInstitution.actual_fn || 0})
               </span>
             </div>
 
@@ -558,11 +613,11 @@ export default function InstitutionPortalPage() {
                 </div>
               </div>
 
-              {/* Row 4: Quota Specific Fields (Supernumerary, NRI, OCI, FN) */}
+              {/* Row 4: Quota Specific Fields (Supernumerary, TFWS, EWS, NRI, FN) */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-cyan-50/40 border border-cyan-200">
                 <div>
                   <label className="block text-xs font-bold text-[#142B4A] mb-1">
-                    Supernumerary Seat?
+                    Intake Seat Category
                   </label>
                   <select
                     value={singleForm.supernumerary_type}
@@ -572,32 +627,63 @@ export default function InstitutionPortalPage() {
                         ...singleForm,
                         supernumerary_type: val,
                         supernumerary_seat: val !== "None",
+                        tfws_eligible: val === "TFWS",
+                        ews_eligible: val === "EWS",
+                        admission_category: val === "None" ? "Regular Merit" : val,
                       });
                     }}
                     className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
                   >
-                    <option value="None">No (Regular Seat)</option>
-                    <option value="TFW">TFW (Tuition Fee Waiver)</option>
-                    <option value="EWS">EWS Supernumerary</option>
-                    <option value="PMSSS">PMSSS (J&K Special Quota)</option>
-                    <option value="Sports">Sports / Defense Quota</option>
+                    <option value="None">Regular Sanctioned Seat (Cutoff: 60)</option>
+                    <option value="TFWS">TFWS (Tuition Fee Waiver - 3 seats max / 5%)</option>
+                    <option value="EWS">EWS (Economically Weaker Section - 6 seats max / 10%)</option>
+                    <option value="PMSSS">PMSSS (J&K Special Quota - Supernumerary)</option>
+                    <option value="Sports">Sports / Defense Quota (Supernumerary)</option>
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-[#142B4A] mb-1">
-                    NRI Category
-                  </label>
-                  <select
-                    value={singleForm.nri_category}
-                    onChange={(e) => setSingleForm({ ...singleForm, nri_category: e.target.value })}
-                    className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
-                  >
-                    <option value="Not Applicable">Not Applicable</option>
-                    <option value="NRI">NRI (Non-Resident Indian)</option>
-                    <option value="NRI-Sponsored">NRI-Sponsored</option>
-                  </select>
-                </div>
+                {singleForm.supernumerary_type === "TFWS" ? (
+                  <div>
+                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                      Parental Annual Income
+                    </label>
+                    <input
+                      type="text"
+                      value={singleForm.family_annual_income || ""}
+                      onChange={(e) => setSingleForm({ ...singleForm, family_annual_income: e.target.value })}
+                      placeholder="e.g. ₹3,80,000 / annum"
+                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                ) : singleForm.supernumerary_type === "EWS" ? (
+                  <div>
+                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                      EWS Certificate Number
+                    </label>
+                    <input
+                      type="text"
+                      value={singleForm.ews_certificate_no || ""}
+                      onChange={(e) => setSingleForm({ ...singleForm, ews_certificate_no: e.target.value })}
+                      placeholder="e.g. EWS/2024/DEL/8821"
+                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-xs font-bold text-[#142B4A] mb-1">
+                      NRI Category
+                    </label>
+                    <select
+                      value={singleForm.nri_category}
+                      onChange={(e) => setSingleForm({ ...singleForm, nri_category: e.target.value })}
+                      className="w-full bg-white border border-cyan-300 rounded-xl px-3 py-2 text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#142B4A]"
+                    >
+                      <option value="Not Applicable">Not Applicable</option>
+                      <option value="NRI">NRI (Non-Resident Indian)</option>
+                      <option value="NRI-Sponsored">NRI-Sponsored</option>
+                    </select>
+                  </div>
+                )}
 
                 <div>
                   <label className="block text-xs font-bold text-[#142B4A] mb-1">
@@ -704,17 +790,20 @@ export default function InstitutionPortalPage() {
             <div className="p-4 rounded-2xl bg-slate-50 border border-[#E2E8F0] text-xs text-slate-600 space-y-1.5">
               <div className="font-bold text-[#0F172A] flex items-center gap-1.5">
                 <Info className="w-4 h-4 text-[#142B4A]" />
-                <span>Evaluator Testing Guide (Problem Statement Requirements):</span>
+                <span>Evaluator Testing Guide (Problem Statement Requirements & Quota Rules):</span>
               </div>
               <p>
-                Clicking the 1-click button loads 6 realistic admission records containing:
+                Clicking the 1-click button loads 8 realistic admission records with comprehensive AICTE quota and cutoff checks:
               </p>
-              <ul className="list-disc pl-5 space-y-0.5 text-[11px]">
-                <li><strong>Compliant Students:</strong> Regular intake, Supernumerary (TFW), and NRI categories.</li>
-                <li><strong>Admissions Exceeding Approved Intake:</strong> Record attempting admission into Apex Institute CSE where all 60 approved seats are full!</li>
-                <li><strong>Cross-Institutional Duplicate Enrolment:</strong> Student Vikramaditya Rao attempting admission simultaneously across two institutions.</li>
-                <li><strong>Duplicate Student Record:</strong> Student with existing APAAR ID already registered in the institution.</li>
-                <li><strong>Invalid APAAR ID Format:</strong> Malformed non-12-digit token.</li>
+              <ul className="list-disc pl-5 space-y-1 text-[11px]">
+                <li><strong>Record 1 (Compliant Regular):</strong> B.Tech CSE at DTU admitted within the 60-seat department cutoff (58/60 enrolled).</li>
+                <li><strong>Record 2 (Compliant TFWS):</strong> 2nd TFWS seat in DTU AI&DS within the sanctioned 3-seat (5%) TFWS cap.</li>
+                <li><strong>Record 3 (Compliant EWS):</strong> Valid EWS admission in DTU ME within the sanctioned 6-seat (10%) EWS cap.</li>
+                <li><strong>Record 4 (TFWS Quota Exceeded Violation):</strong> Siddharth Jain attempting 4th TFWS seat in DTU CSE where all 3/3 TFWS seats are already filled &rarr; triggers <code className="text-rose-600 font-bold">EXCEEDING_TFWS_QUOTA</code>!</li>
+                <li><strong>Record 5 (EWS Quota Exceeded Violation):</strong> Pooja Hegde attempting 7th EWS seat in DTU AI&DS where all 6/6 EWS seats are filled &rarr; triggers <code className="text-rose-600 font-bold">EXCEEDING_EWS_QUOTA</code>!</li>
+                <li><strong>Record 6 (Department Regular Cutoff Exceeded):</strong> Sunil Chawla attempting admission to Apex Institute CSE where 68 students are already enrolled against the 60 approved cutoff &rarr; triggers <code className="text-rose-600 font-bold">ADMISSION_EXCEEDING_APPROVED_INTAKE</code>!</li>
+                <li><strong>Record 7 (Cross-Institutional Duplicate Fraud):</strong> Vikramaditya Rao attempting dual full-time enrolment while already registered at Apex Institute &rarr; triggers <code className="text-rose-600 font-bold">CROSS_INSTITUTION_DUPLICATE_ENROLMENT</code>!</li>
+                <li><strong>Record 8 (Malformed APAAR ID):</strong> Ramesh Kumar Verma submitting an invalid format token &rarr; triggers <code className="text-rose-600 font-bold">INVALID_APAAR_FORMAT</code>!</li>
               </ul>
             </div>
 
@@ -837,17 +926,22 @@ export default function InstitutionPortalPage() {
                 <thead className="bg-[#142B4A] text-white">
                   <tr>
                     <th className="p-3 font-bold">Program & Branch</th>
-                    <th className="p-3 font-bold">Approved Intake</th>
-                    <th className="p-3 font-bold">Actual Enrolment</th>
-                    <th className="p-3 font-bold">Supernumerary (Enr/Appr)</th>
-                    <th className="p-3 font-bold">NRI (Enr/Appr)</th>
-                    <th className="p-3 font-bold">Foreign National (Enr/Appr)</th>
-                    <th className="p-3 font-bold">Intake Compliance</th>
+                    <th className="p-3 font-bold">Approved Cutoff</th>
+                    <th className="p-3 font-bold">Regular Enrolled</th>
+                    <th className="p-3 font-bold">TFWS (5% Quota)</th>
+                    <th className="p-3 font-bold">EWS (10% Quota)</th>
+                    <th className="p-3 font-bold">Supernumerary</th>
+                    <th className="p-3 font-bold">NRI (5%)</th>
+                    <th className="p-3 font-bold">FN (15%)</th>
+                    <th className="p-3 font-bold">Compliance Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#E2E8F0] bg-white">
                   {currentInstitution.programs?.map((prog, idx) => {
                     const isExcess = prog.actual_enrolment > prog.approved_intake;
+                    const isTfwsFull = (prog.tfws_enrolled || 0) >= (prog.tfws_approved || 3);
+                    const isEwsFull = (prog.ews_enrolled || 0) >= (prog.ews_approved || 6);
+
                     return (
                       <tr key={idx} className={isExcess ? "bg-rose-50/40" : "hover:bg-slate-50"}>
                         <td className="p-3 font-bold text-[#142B4A]">
@@ -856,16 +950,32 @@ export default function InstitutionPortalPage() {
                             Code: {prog.branch}
                           </span>
                         </td>
-                        <td className="p-3 font-bold text-[#0F172A]">{prog.approved_intake} seats</td>
+                        <td className="p-3 font-bold text-[#0F172A]">{prog.approved_intake || 60} seats</td>
                         <td className="p-3 font-bold text-blue-700">{prog.actual_enrolment} enrolled</td>
-                        <td className="p-3 font-semibold text-slate-700">
-                          {prog.supernumerary_enrolled || 0} / {prog.supernumerary_approved || 0}
+                        <td className="p-3 font-semibold">
+                          <span className={isTfwsFull ? "text-amber-700 font-bold" : "text-emerald-700 font-bold"}>
+                            {prog.tfws_enrolled || 0} / {prog.tfws_approved || 3}
+                          </span>
+                          <span className="block text-[9px] text-slate-400">
+                            {isTfwsFull ? "Capacity Full (3/3)" : `${(prog.tfws_approved || 3) - (prog.tfws_enrolled || 0)} open`}
+                          </span>
+                        </td>
+                        <td className="p-3 font-semibold">
+                          <span className={isEwsFull ? "text-amber-700 font-bold" : "text-emerald-700 font-bold"}>
+                            {prog.ews_enrolled || 0} / {prog.ews_approved || 6}
+                          </span>
+                          <span className="block text-[9px] text-slate-400">
+                            {isEwsFull ? "Capacity Full (6/6)" : `${(prog.ews_approved || 6) - (prog.ews_enrolled || 0)} open`}
+                          </span>
                         </td>
                         <td className="p-3 font-semibold text-slate-700">
-                          {prog.nri_enrolled || 0} / {prog.nri_approved || 0}
+                          {prog.supernumerary_enrolled || 0} / {prog.supernumerary_approved || 11}
                         </td>
                         <td className="p-3 font-semibold text-slate-700">
-                          {prog.fn_enrolled || 0} / {prog.fn_approved || 0}
+                          {prog.nri_enrolled || 0} / {prog.nri_approved || 3}
+                        </td>
+                        <td className="p-3 font-semibold text-slate-700">
+                          {prog.fn_enrolled || 0} / {prog.fn_approved || 9}
                         </td>
                         <td className="p-3">
                           {isExcess ? (

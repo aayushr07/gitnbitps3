@@ -40,7 +40,9 @@ export default function StudentsPage() {
   const branches = ["All", "CSE", "AI & DS", "ENTC", "ME", "EE", "PGDM"];
   const quotas = [
     { label: "All Categories", value: "All" },
-    { label: "Regular Intake", value: "Regular" },
+    { label: "Regular Intake (Cutoff 60)", value: "Regular" },
+    { label: "TFWS (Tuition Fee Waiver - 5%)", value: "TFWS" },
+    { label: "EWS (Economically Weaker Section - 10%)", value: "EWS" },
     { label: "Supernumerary Seats", value: "Supernumerary" },
     { label: "NRI Category", value: "NRI" },
     { label: "OCI Status", value: "OCI" },
@@ -323,7 +325,15 @@ export default function StudentsPage() {
 
                         {/* Quota / Category Badges */}
                         <td className="p-3.5">
-                          {student.supernumerary_seat ? (
+                          {student.supernumerary_type === "TFWS" || student.admission_category === "TFWS" || student.tfws_eligible ? (
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 text-[10px] font-bold inline-block border border-emerald-300">
+                              TFWS: 100% Fee Waiver (5% Quota)
+                            </span>
+                          ) : student.supernumerary_type === "EWS" || student.admission_category === "EWS" || student.ews_eligible ? (
+                            <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-bold inline-block border border-amber-300">
+                              EWS: 10% Supernumerary Quota
+                            </span>
+                          ) : student.supernumerary_seat ? (
                             <span className="px-2 py-0.5 rounded-md bg-cyan-100 text-cyan-900 text-[10px] font-bold inline-block border border-cyan-200">
                               Supernumerary: {student.supernumerary_type || "Quota"}
                             </span>
@@ -341,7 +351,7 @@ export default function StudentsPage() {
                             </span>
                           ) : (
                             <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-semibold inline-block border border-slate-200">
-                              Regular Merit Intake
+                              Regular Merit Intake (60 Cutoff)
                             </span>
                           )}
                         </td>
