@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   Building2,
   UploadCloud,
@@ -77,7 +78,7 @@ export default function InstitutionPortalPage() {
   const fetchInstitutions = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/institutions");
+      const res = await fetch(API_ENDPOINTS.institutions);
       if (res.ok) {
         const data = await res.json();
         setInstitutions(data.institutions || []);
@@ -105,7 +106,7 @@ export default function InstitutionPortalPage() {
     };
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/institution/validate", {
+      const res = await fetch(API_ENDPOINTS.institutionValidate, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -131,10 +132,10 @@ export default function InstitutionPortalPage() {
   const handleLoadSampleBatch = async () => {
     setValidationLoading(true);
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/sample-admission-batch");
+      const res = await fetch(API_ENDPOINTS.sampleAdmissionBatch);
       const data = await res.json();
       if (data.records) {
-        const valRes = await fetch("http://127.0.0.1:5000/api/institution/validate", {
+        const valRes = await fetch(API_ENDPOINTS.institutionValidate, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -190,7 +191,7 @@ export default function InstitutionPortalPage() {
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/institution/upload-students", {
+      const res = await fetch(API_ENDPOINTS.institutionUpload, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

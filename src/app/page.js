@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   QrCode,
   ShieldCheck,
@@ -45,7 +46,7 @@ export default function HomePage() {
   });
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/analytics")
+    fetch(API_ENDPOINTS.analytics)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.analytics) {

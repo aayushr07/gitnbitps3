@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { API_BASE_URL, API_ENDPOINTS } from "@/config/api";
 import {
   Code2,
   Key,
@@ -66,7 +67,7 @@ export default function IntegrationPage() {
     try {
       let res;
       if (selectedEndpoint === "INTAKE_STATUS") {
-        res = await fetch("http://127.0.0.1:5000/api/v1/institution/intake-status", {
+        res = await fetch(API_ENDPOINTS.erpIntakeStatus, {
           headers: {
             "X-AICTE-API-KEY": apiKey,
           },
@@ -81,7 +82,7 @@ export default function IntegrationPage() {
           return;
         }
 
-        res = await fetch("http://127.0.0.1:5000/api/v1/institution/submit-admissions", {
+        res = await fetch(API_ENDPOINTS.erpSubmitAdmissions, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -111,9 +112,9 @@ export default function IntegrationPage() {
 
   const curlSnippet =
     selectedEndpoint === "INTAKE_STATUS"
-      ? `curl -X GET "http://127.0.0.1:5000/api/v1/institution/intake-status" \\
+      ? `curl -X GET "${API_BASE_URL}/api/v1/institution/intake-status" \\
   -H "X-AICTE-API-KEY: ${apiKey}"`
-      : `curl -X POST "http://127.0.0.1:5000/api/v1/institution/submit-admissions" \\
+      : `curl -X POST "${API_BASE_URL}/api/v1/institution/submit-admissions" \\
   -H "Content-Type: application/json" \\
   -H "X-AICTE-API-KEY: ${apiKey}" \\
   -d '${testPayload.replace(/\n/g, "").replace(/\s+/g, " ")}'`;
@@ -122,14 +123,14 @@ export default function IntegrationPage() {
     selectedEndpoint === "INTAKE_STATUS"
       ? `import requests
 
-url = "http://127.0.0.1:5000/api/v1/institution/intake-status"
+url = "${API_BASE_URL}/api/v1/institution/intake-status"
 headers = {"X-AICTE-API-KEY": "${apiKey}"}
 
 response = requests.get(url, headers=headers)
 print("Approved Intake Status:", response.json())`
       : `import requests
 
-url = "http://127.0.0.1:5000/api/v1/institution/submit-admissions"
+url = "${API_BASE_URL}/api/v1/institution/submit-admissions"
 headers = {
     "Content-Type": "application/json",
     "X-AICTE-API-KEY": "${apiKey}"

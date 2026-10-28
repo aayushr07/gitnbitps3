@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   BarChart3,
   ShieldCheck,
@@ -38,9 +39,9 @@ export default function AnalyticsPage() {
     setLoading(true);
     try {
       const [analyticsRes, instRes, repRes] = await Promise.all([
-        fetch("http://127.0.0.1:5000/api/analytics"),
-        fetch("http://127.0.0.1:5000/api/institutions"),
-        fetch("http://127.0.0.1:5000/api/reports/admissions")
+        fetch(API_ENDPOINTS.analytics),
+        fetch(API_ENDPOINTS.institutions),
+        fetch(API_ENDPOINTS.reportsAdmissions)
       ]);
 
       if (analyticsRes.ok) {
@@ -63,7 +64,7 @@ export default function AnalyticsPage() {
   };
 
   const handleExportCsv = () => {
-    window.open("http://127.0.0.1:5000/api/reports/admissions?format=csv", "_blank");
+    window.open(API_ENDPOINTS.reportsAdmissionsCsv, "_blank");
   };
 
   const handlePrintReport = () => {

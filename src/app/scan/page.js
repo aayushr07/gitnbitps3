@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   QrCode,
   Camera,
@@ -87,7 +88,7 @@ function ScanContent() {
 
   const fetchRecentVerifications = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/verifications?limit=5");
+      const res = await fetch(`${API_ENDPOINTS.verifications}?limit=5`);
       if (res.ok) {
         const d = await res.json();
         setRecentScans(d.verifications || []);
@@ -103,7 +104,7 @@ function ScanContent() {
     setResult(null);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/verify-apaar", {
+      const res = await fetch(API_ENDPOINTS.verifyApaar, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   Users,
   Search,
@@ -65,7 +66,7 @@ export default function StudentsPage() {
 
   const fetchInstitutions = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/institutions");
+      const res = await fetch(API_ENDPOINTS.institutions);
       if (res.ok) {
         const data = await res.json();
         setInstitutions(data.institutions || []);
@@ -85,7 +86,7 @@ export default function StudentsPage() {
       if (selectedQuota !== "All") params.append("quota", selectedQuota);
       if (selectedStatus !== "All") params.append("status", selectedStatus);
 
-      const res = await fetch(`http://127.0.0.1:5000/api/students?${params.toString()}`);
+      const res = await fetch(`${API_ENDPOINTS.students}?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
         setStudents(data.students || []);
@@ -100,7 +101,7 @@ export default function StudentsPage() {
   const handleDelete = async (apaarId, name) => {
     if (!confirm(`Are you sure you want to remove record for ${name} (${apaarId})?`)) return;
     try {
-      const res = await fetch(`http://127.0.0.1:5000/api/students/${encodeURIComponent(apaarId)}`, {
+      const res = await fetch(API_ENDPOINTS.studentDetail(apaarId), {
         method: "DELETE",
       });
       if (res.ok) {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { API_ENDPOINTS } from "@/config/api";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -36,7 +37,7 @@ export default function StudentPassportPage() {
   useEffect(() => {
     if (!rawId) return;
 
-    fetch(`http://127.0.0.1:5000/api/students/${encodeURIComponent(rawId)}`)
+    fetch(API_ENDPOINTS.studentDetail(rawId))
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.student) {
@@ -46,7 +47,7 @@ export default function StudentPassportPage() {
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
 
-    fetch(`http://127.0.0.1:5000/api/generate-qr/${encodeURIComponent(rawId)}?base64=true`)
+    fetch(API_ENDPOINTS.generateQr(rawId))
       .then((res) => res.json())
       .then((data) => {
         if (data.qr_image_base64) {

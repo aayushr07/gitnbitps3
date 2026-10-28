@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { API_ENDPOINTS } from "@/config/api";
 
 export const authOptions = {
   providers: [
@@ -17,7 +18,7 @@ export const authOptions = {
 
         // Try backend Flask auth endpoint first
         try {
-          const res = await fetch("http://127.0.0.1:5000/api/auth/login", {
+          const res = await fetch(API_ENDPOINTS.authLogin, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
